@@ -19,7 +19,7 @@ Manager Delay          3
 
 class QSU_Test1 extends AnyFlatSpec with ChiselScalatestTester {
   "QSU" should "DoGateOperations" in
-    test(new TopQSU(/*qubits*/3, /*bw*/32, 3, 3, 10)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
+    test(new TopQSU(/*qubits*/3, /*bw*/16, true)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
       //initial QSV: 1/2|000> + 1/2|111> + j(1/2)|101> + j(1/2)|010>
       dut.io.in_QSV(0).poke("h38000000".U) //000 : 1/2
       dut.io.in_QSV(1).poke("h00000000".U) //001 : 0...
@@ -90,7 +90,7 @@ class QSU_Test1 extends AnyFlatSpec with ChiselScalatestTester {
 //Using strictly the FPUgates to see error generated
 class QSU_Test2 extends AnyFlatSpec with ChiselScalatestTester {
     "QSU" should "notGenerateError" in
-      test(new TopQSU(/*qubits*/ 3, /*bw*/ 32, 3, 3, 10)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
+      test(new TopQSU(/*qubits*/ 3, /*bw*/ 16, true)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
         //initial QSV: 1/2|000> + 1/2|111> + j(1/2)|101> + j(1/2)|010>
         dut.io.in_QSV(0).poke("h38000000".U) //000 : 1/2
         dut.io.in_QSV(1).poke("h00000000".U) //001 : 0...
@@ -131,7 +131,7 @@ class QSU_Test2 extends AnyFlatSpec with ChiselScalatestTester {
 //Do stuff with both pools, then apply measurement gate.
 class QSU_Test3 extends AnyFlatSpec with ChiselScalatestTester{
     "QSU" should "Create state, then mesure" in
-      test(new TopQSU(/*qubits*/ 3, /*bw*/ 32, 3, 3, 10)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
+      test(new TopQSU(/*qubits*/ 3, /*bw*/ 16, true)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
         //Final QSV Before Measure: 1/2|000> + 1/2|111> + j(1/2)|101> + j(1/2)|010>
         dut.io.in_QSV(0).poke("h3C000000".U) //000 : 1...
         dut.io.in_QSV(1).poke("h00000000".U) //001 : 0...
@@ -164,7 +164,7 @@ class QSU_Test3 extends AnyFlatSpec with ChiselScalatestTester{
         dut.io.in_applyGate.poke(1.B)
         dut.clock.step()
         dut.io.in_applyGate.poke(0.B)
-        dut.clock.step(20)
+        dut.clock.step(25)
         dut.io.out_flag.expect(1.B)
 
         //Q1 H gate
@@ -176,7 +176,7 @@ class QSU_Test3 extends AnyFlatSpec with ChiselScalatestTester{
         dut.io.in_applyGate.poke(1.B)
         dut.clock.step()
         dut.io.in_applyGate.poke(0.B)
-        dut.clock.step(20)
+        dut.clock.step(25)
         dut.io.out_flag.expect(1.B)
 
         //control: Q1 -> target: Q2 CNOT gate
@@ -212,19 +212,19 @@ class QSU_Test3 extends AnyFlatSpec with ChiselScalatestTester{
         dut.io.in_applyGate.poke(1.B)
         dut.clock.step()
         dut.io.in_applyGate.poke(0.B)
-        dut.clock.step(100)
+        dut.clock.step(125)
         dut.io.out_flag.expect(1.B)
 
         //Q1 measure gate
-        dut.io.in_Permutaiton_Sel(1).poke(1.U)
+        dut.io.in_Permutaiton_Sel(0).poke(1.U)
+        dut.io.in_Permutaiton_Sel(1).poke(0.U)
         dut.io.in_Permutaiton_Sel(2).poke(0.U)
-        dut.io.in_Permutaiton_Sel(3).poke(0.U)
         dut.io.in_Gate_Sel.poke("h1f".U)
         dut.clock.step()
         dut.io.in_applyGate.poke(1.B)
         dut.clock.step()
         dut.io.in_applyGate.poke(0.B)
-        dut.clock.step(100)
+        dut.clock.step(125)
         dut.io.out_flag.expect(1.B)
     }
 }
@@ -232,7 +232,7 @@ class QSU_Test3 extends AnyFlatSpec with ChiselScalatestTester{
 //Normalize first, get weird entanglement to see possible error
 class QSU_Test4 extends AnyFlatSpec with ChiselScalatestTester {
     "QSU" should "Normalize State, then apply gates" in
-      test(new TopQSU(/*qubits*/ 3, /*bw*/ 32, 3, 3, 10)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
+      test(new TopQSU(/*qubits*/ 3, /*bw*/ 16, true)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
           dut.io.in_QSV(0).poke("h3C000000".U) //000 : 1...
         dut.io.in_QSV(1).poke("h3C000000".U) //001 : 1...
         dut.io.in_QSV(2).poke("h00000000".U) //010 : 0...
@@ -287,7 +287,7 @@ class QSU_Test4 extends AnyFlatSpec with ChiselScalatestTester {
 
 class OneQubitQSU_Test extends AnyFlatSpec with ChiselScalatestTester {
     "QSU" should "Do_A_Thing" in
-      test(new TopQSU(/*qubits*/ 1, /*bw*/ 32, 3, 3, 10)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
+      test(new TopQSU(/*qubits*/ 1, /*bw*/ 16, true)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
           dut.io.in_QSV(0).poke("h3C000000".U) //000 : 1...
           dut.io.in_QSV(1).poke("h00000000".U) //001 : 0...
           dut.clock.step()

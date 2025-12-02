@@ -1,7 +1,13 @@
 package QuantumStateUnit
 
-import QuantumStateUnit.Gates._
-import QuantumStateUnit.OtherComponents.PsuedoRandomGenerator._
+import QuantumStateUnit.GateArchitecture.FixedPointGatePool._
+import QuantumStateUnit.GateArchitecture.FPUGatePool._
+import FixedPointUnit._
+import New_FPU_Mario.FPUnits.FP_add
+import QuantumStateUnit.GateArchitecture.FPUGatePool.Matrix.FPUPool
+import QuantumStateUnit.GateArchitecture.FPUGatePool._
+import QuantumStateUnit.GateArchitecture.FixedPointGatePool.MeasurementGate.Components.{CollapseProbability, CompareWithRandom, GetNormalization}
+import QuantumStateUnit.GateArchitecture.FixedPointGatePool.MeasurementGate.MeasurementGate
 import QuantumStateUnit.OtherComponents.CondenseInputs._
 import QuantumStateUnit.QSU_Architecture._
 import chisel3._
@@ -14,8 +20,15 @@ import scala.math.{ceil, log, pow}
 Accepted bit width is:      32, 64,128,256
 accepted propagation delay:  1,  3,  7,  8, 10, 13
 */
-class TopQSU(num_of_qubits : Int, bit_width : Int, mult_pd : Int, add_pd : Int, L : Int) extends Module{
-  override def desiredName = s"TopQSU${bit_width/2}bit_${num_of_qubits}qubit"
+
+class TopQSU(val num_of_qubits : Int, val bit_width : Int, val useFPU : Boolean) extends Module{
+  var FixedOrFloat = "Unknown"
+  if(useFPU == false){
+    FixedOrFloat = "Fixed"
+  } else if(useFPU == true){
+    FixedOrFloat = "FPU"
+  }
+  override def desiredName = s"${FixedOrFloat}TopQSU${bit_width}bit_${num_of_qubits}qubit"
 
   //When less than 3 qubits
   var Sequence = Seq(0, 1, 2) //Default
@@ -29,22 +42,22 @@ class TopQSU(num_of_qubits : Int, bit_width : Int, mult_pd : Int, add_pd : Int, 
   }
 
   val io = IO(new Bundle{
-    val in_QSV              = Input(Vec(pow(2,num_of_qubits).toInt, UInt(bit_width.W)))
+    val in_QSV              = Input(Vec(pow(2,num_of_qubits).toInt, UInt((2 * bit_width).W)))
     val in_Permutaiton_Sel  = Input(MixedVec(Sequence.map(i => UInt(ceil(log(num_of_qubits - i)/log(2)).toInt.W))))
     val in_Gate_Sel         = Input(UInt(5.W))
-    val in_Ugate            = Input(Vec(4, UInt(bit_width.W)))
+    val in_Ugate            = Input(Vec(4, UInt((2 * bit_width).W)))
     val in_applyGate        = Input(Bool()) //Applies the input gate onto the register: doesn't work when flag is 1.B
     val in_en_replaceQSV    = Input(Bool()) //Replaces Initial state and algorithm with above inputs
     val in_noise            = Input(UInt(32.W))
-    val out_state           = Output(Vec(pow(2,num_of_qubits).toInt, UInt(bit_width.W)))
+    val out_state           = Output(Vec(pow(2,num_of_qubits).toInt, UInt((2 * bit_width).W)))
     val out_flag            = Output(Bool()) //says when ready to apply next gate. While 1.B, applyGate will not take any input
   })
 
   val manager     = Module(new QSUController)
-  val gatePool    = Module(new QGP(num_of_qubits, bit_width, mult_pd, add_pd, L))
-  val permutation = Module(new StackedPermutationSwitchGrids(num_of_qubits, bit_width, Sequence))
-  val reversePerm = Module(new StackedPermutationSwitchGrids(num_of_qubits, bit_width, Sequence))
-  val QSR         = Module(new QuantumStateRegister(num_of_qubits, bit_width))
+  val gatePool    = Module(new gatepool_FixOFlo(num_of_qubits, bit_width, useFPU))
+  val permutation = Module(new StackedPermutationSwitchGrids(num_of_qubits, 2 * bit_width, Sequence))
+  val reversePerm = Module(new StackedPermutationSwitchGrids(num_of_qubits, 2 * bit_width, Sequence))
+  val QSR         = Module(new QuantumStateRegister(num_of_qubits, 2 * bit_width))
   val hold        = Module(new QSUSelHold(num_of_qubits, Sequence))
 
   //Quantum state Register inputs
@@ -89,8 +102,14 @@ class TopQSU(num_of_qubits : Int, bit_width : Int, mult_pd : Int, add_pd : Int, 
 The TopQSU has too many IOs to actually be implemented onto an FPGA.
 This design adds shift registers to the IOs in order to reduce the amount of IOs.
  */
-class TopQSU_ShftIO(num_of_qubits : Int, bit_width : Int, mult_pd : Int, add_pd : Int, L : Int) extends Module {
-  override def desiredName = s"TopQSU${bit_width / 2}bit_${num_of_qubits}qubit_ShftRegIO"
+class TopQSU_ShftIO(val num_of_qubits : Int, val bit_width : Int, val useFPU : Boolean) extends Module {
+  var FixedOrFloat = "Unknown"
+  if(useFPU == false){
+    FixedOrFloat = "Fixed"
+  } else if(useFPU == true){
+    FixedOrFloat = "FPU"
+  }
+  override def desiredName = s"${FixedOrFloat}TopQSU${bit_width}bit_${num_of_qubits}qubit_ShftRegIO"
 
   //When less than 3 qubits
   var Sequence = Seq(0, 1, 2) //Default
@@ -102,8 +121,8 @@ class TopQSU_ShftIO(num_of_qubits : Int, bit_width : Int, mult_pd : Int, add_pd 
 
   val io = IO(new Bundle {
     val in_QSV            = Input(Vec(pow(2, num_of_qubits).toInt, Bool()))
-    val in_Permutaiton_Sel_Sel= Input(MixedVec(Sequence.map(i => UInt(ceil(log(num_of_qubits - i) / log(2)).toInt.W))))
-    val in_Gate_Sel_Sel       = Input(UInt(5.W))
+    val in_Permutaiton_Sel= Input(MixedVec(Sequence.map(i => UInt(ceil(log(num_of_qubits - i) / log(2)).toInt.W))))
+    val in_Gate_Sel       = Input(UInt(5.W))
     val in_Ugate          = Input(Vec(4, Bool()))
     val in_applyGate      = Input(Bool()) //Applies the input gate onto the register: doesn't work when flag is 1.B
     val in_en_replaceQSV  = Input(Bool()) //Replaces Initial state and algorithm with above inputs
@@ -122,7 +141,7 @@ class TopQSU_ShftIO(num_of_qubits : Int, bit_width : Int, mult_pd : Int, add_pd 
   val feedUgate   = Module(new ShiftRegisterInput(4, bit_width))
   val feedNoise   = Module(new ShiftRegisterInput(1, 32))
   val outfeed     = Module(new ShiftRegisterOutput(pow(2,num_of_qubits).toInt, bit_width))
-  val QSU         = Module(new TopQSU(num_of_qubits, bit_width, mult_pd, add_pd, L))
+  val QSU         = Module(new TopQSU(num_of_qubits, bit_width, useFPU))
 
   //feed into device
   feedQSV.io.in   := io.in_QSV
@@ -134,8 +153,8 @@ class TopQSU_ShftIO(num_of_qubits : Int, bit_width : Int, mult_pd : Int, add_pd 
 
   //QSU Inputs
   QSU.io.in_QSV             := feedQSV.io.out
-  QSU.io.in_Permutaiton_Sel := io.in_Permutaiton_Sel_Sel
-  QSU.io.in_Gate_Sel        := io.in_Gate_Sel_Sel
+  QSU.io.in_Permutaiton_Sel := io.in_Permutaiton_Sel
+  QSU.io.in_Gate_Sel        := io.in_Gate_Sel
   QSU.io.in_applyGate       := io.in_applyGate
   QSU.io.in_en_replaceQSV   := io.in_en_replaceQSV
   QSU.io.in_noise.asUInt    := feedNoise.io.out.asUInt
@@ -150,7 +169,11 @@ class TopQSU_ShftIO(num_of_qubits : Int, bit_width : Int, mult_pd : Int, add_pd 
   io.out_flag               := QSU.io.out_flag
 }
 
-object main extends App{
+/*object main extends App{
   //TopQSU(num_of_qubits : Int, bit_width : Int, mult_pd : Int, add_pd : Int, L : Int)
   emitVerilog(new TopQSU(4,32,3,3,10))
+}*/
+
+object main extends App{
+  emitVerilog(new TopQSU(3,16,true))
 }

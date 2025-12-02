@@ -1,6 +1,7 @@
 package QSU_Test.QSU_Architecture
 
-import QuantumStateUnit.Gates.QGPMuxLayer
+import QuantumStateUnit.GateArchitecture.FPUGatePool._
+import QuantumStateUnit.GateArchitecture.QGPMuxLayer
 import QuantumStateUnit.QSU_Architecture._
 import chisel3._
 import chiseltest._
@@ -37,7 +38,7 @@ class QGPMuxLayerCheck extends AnyFlatSpec with ChiselScalatestTester {
 //QGPTest 1: NonFPU GatePool
 class QGPTest1 extends AnyFlatSpec with ChiselScalatestTester {
   "Gates" should "GenerateNewState" in
-    test(new QGP(3,32,3,3,10)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
+    test(new FPUQuantumGatePool(3,32)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
       //Initial Input
       dut.io.in_QSV(0).poke("h3c000000".U) //000: 1 + 0j
       dut.io.in_QSV(1).poke("h3c000000".U) //001: 1 + 0j
@@ -104,7 +105,7 @@ class QGPTest1 extends AnyFlatSpec with ChiselScalatestTester {
 //FPU Test
 class QGPTest2 extends AnyFlatSpec with ChiselScalatestTester {
   "Gates" should "multiply" in
-    test(new QGP(3, 32, 3, 3,10)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
+    test(new FPUQuantumGatePool(3,32)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
       //Initial Input
       dut.io.in_QSV(0).poke("h3c000000".U) //000:  1  +   0j
       dut.io.in_QSV(1).poke("h00000000".U) //001:  0  +   0j
@@ -149,7 +150,7 @@ class QGPTest2 extends AnyFlatSpec with ChiselScalatestTester {
 //Measure gate test: select is incorrect with out QSV
 class QGPTest3 extends AnyFlatSpec with ChiselScalatestTester {
   "Gates" should "measureQ0" in
-    test(new QGP(3, 32, 3, 3, 10)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
+    test(new FPUQuantumGatePool(3,32)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
       //Initial Input
       dut.io.in_QSV(0).poke("h38000000".U) //000: 0.50
       dut.io.in_QSV(1).poke("h34000000".U) //001: 0.25

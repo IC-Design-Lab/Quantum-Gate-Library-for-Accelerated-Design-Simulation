@@ -1,11 +1,14 @@
 package QuantumStateUnit
 
+import Complex_FPU.complex_conjugate_mult
+import FPUMatrixMult.FPUMatrixMult
 import QuantumStateUnit.GateArchitecture.FixedPointGatePool._
 import QuantumStateUnit.GateArchitecture.FPUGatePool._
 import FixedPointUnit._
-import New_FPU_Mario.FPUnits.FP_add
+import New_FPU_Mario.FPUnits.{FP_add, FP_mult}
 import QuantumStateUnit.GateArchitecture.FPUGatePool.Matrix.FPUPool
 import QuantumStateUnit.GateArchitecture.FPUGatePool._
+import QuantumStateUnit.GateArchitecture.FixedPointGatePool.Matrix.MatrixMult_SquareXKet
 import QuantumStateUnit.GateArchitecture.FixedPointGatePool.MeasurementGate.Components.{CollapseProbability, CompareWithRandom, GetNormalization}
 import QuantumStateUnit.GateArchitecture.FixedPointGatePool.MeasurementGate.MeasurementGate
 import QuantumStateUnit.OtherComponents.CondenseInputs._
@@ -169,11 +172,12 @@ class TopQSU_ShftIO(val num_of_qubits : Int, val bit_width : Int, val useFPU : B
   io.out_flag               := QSU.io.out_flag
 }
 
-/*object main extends App{
-  //TopQSU(num_of_qubits : Int, bit_width : Int, mult_pd : Int, add_pd : Int, L : Int)
-  emitVerilog(new TopQSU(4,32,3,3,10))
-}*/
-
 object main extends App{
-  emitVerilog(new TopQSU(3,16,true))
+  //TopQSU(num_of_qubits : Int, bit_width : Int, mult_pd : Int, add_pd : Int, L : Int)
+  emitVerilog(new TopQSU(10, 32, false))
 }
+/*
+object main extends App{
+  emitVerilog(new FPUMatrixMult(1, 32, 1, 1))
+}
+ */

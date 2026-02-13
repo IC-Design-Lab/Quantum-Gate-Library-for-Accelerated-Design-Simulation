@@ -82,7 +82,7 @@ class Measurement(val num_of_qubits : Int, val bw : Int, val mult_pd : Int, val 
   //Part three - output
   io.out_QSV                        := QSVout.io.out_QSV
   io.out_valid                      := normalizeNumber.io.out_valid
-  val NormalizeNumberReg  = RegInit(0.S(bw.W))
+  val NormalizeNumberReg  = RegInit(0.U(bw.W))
   NormalizeNumberReg                := Mux(normalize, normalizeNumber.io.out_Normalize, IEEENumber_One)
   io.out_Normalize                  := NormalizeNumberReg
   io.out_measured                   := numberGenerator.io.out_value

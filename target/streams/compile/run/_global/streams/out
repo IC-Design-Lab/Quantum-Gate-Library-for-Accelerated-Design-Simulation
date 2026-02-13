@@ -1,0 +1,9 @@
+[0m[[0m[31merror[0m] [0m[0mchisel3.package$ChiselException: Connection between sink (FixedGateMult.io.in_Ugate[0]: IO[SInt<16>[2]]) and source (FixedQuantumGatePool.FixedGatePool_io_in_Ugate_0_?: OpResult[SInt<16>]) failed @: Sink (SInt<16>[2]) and Source (SInt<16>) have different types.[0m
+[0m[[0m[31merror[0m] [0m[0m	at ... ()[0m
+[0m[[0m[31merror[0m] [0m[0m	at QuantumStateUnit.GateArchitecture.FixedPointGatePool.FixedQuantumGatePool.$anonfun$new$20(FixedQuantumGatePool.scala:85)[0m
+[0m[[0m[31merror[0m] [0m[0m	at scala.collection.immutable.Range.foreach$mVc$sp(Range.scala:190)[0m
+[0m[[0m[31merror[0m] [0m[0m	at QuantumStateUnit.GateArchitecture.FixedPointGatePool.FixedQuantumGatePool.<init>(FixedQuantumGatePool.scala:84)[0m
+[0m[[0m[31merror[0m] [0m[0m	at QuantumStateUnit.main$.$anonfun$new$28(Top_QSU.scala:183)[0m
+[0m[[0m[31merror[0m] [0m[0m	at ... ()[0m
+[0m[[0m[31merror[0m] [0m[0m	at ... (Stack trace trimmed to user code only. Rerun with --full-stacktrace to see the full stack trace)[0m
+[0m[[0m[31merror[0m] [0m[0m(Compile / [31mrun[0m) chisel3.package$ChiselException: Connection between sink (FixedGateMult.io.in_Ugate[0]: IO[SInt<16>[2]]) and source (FixedQuantumGatePool.FixedGatePool_io_in_Ugate_0_?: OpResult[SInt<16>]) failed @: Sink (SInt<16>[2]) and Source (SInt<16>) have different types.[0m

@@ -3,6 +3,7 @@ package QSU_Test
 import QuantumStateUnit._
 import chisel3._
 import chiseltest._
+import firrtl2.options.TargetDirAnnotation
 import org.scalatest.flatspec.AnyFlatSpec
 
 //All test here are made for the VCD to give a broader idea of how everything is working together.
@@ -19,7 +20,8 @@ Manager Delay          3
 
 class QSU_Test1 extends AnyFlatSpec with ChiselScalatestTester {
   "QSU" should "DoGateOperations" in
-    test(new TopQSU(/*qubits*/3, /*bw*/16, true)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
+    test(new TopQSU(/*qubits*/3, /*bw*/16, true)).withAnnotations(
+        Seq(WriteVcdAnnotation,TargetDirAnnotation("test_run_dir/QSU_Top"))) { dut =>
       //initial QSV: 1/2|000> + 1/2|111> + j(1/2)|101> + j(1/2)|010>
       dut.io.in_QSV(0).poke("h38000000".U) //000 : 1/2
       dut.io.in_QSV(1).poke("h00000000".U) //001 : 0...
@@ -131,7 +133,8 @@ class QSU_Test2 extends AnyFlatSpec with ChiselScalatestTester {
 //Do stuff with both pools, then apply measurement gate.
 class QSU_Test3 extends AnyFlatSpec with ChiselScalatestTester{
     "QSU" should "Create state, then mesure" in
-      test(new TopQSU(/*qubits*/ 3, /*bw*/ 16, true)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
+      test(new TopQSU(/*qubits*/ 3, /*bw*/ 16, true)).withAnnotations(
+          Seq(WriteVcdAnnotation, TargetDirAnnotation("test_run_dir/QSU_Top"))) { dut =>
         //Final QSV Before Measure: 1/2|000> + 1/2|111> + j(1/2)|101> + j(1/2)|010>
         dut.io.in_QSV(0).poke("h3C000000".U) //000 : 1...
         dut.io.in_QSV(1).poke("h00000000".U) //001 : 0...
@@ -287,8 +290,9 @@ class QSU_Test4 extends AnyFlatSpec with ChiselScalatestTester {
 
 class OneQubitQSU_Test extends AnyFlatSpec with ChiselScalatestTester {
     "QSU" should "Do_A_Thing" in
-      test(new TopQSU(/*qubits*/ 1, /*bw*/ 16, true)).withAnnotations(Seq(WriteVcdAnnotation)) { dut =>
-          dut.io.in_QSV(0).poke("h3C000000".U) //000 : 1...
+      test(new TopQSU(/*qubits*/ 1, /*bw*/ 16, true)).withAnnotations(
+        Seq(WriteVcdAnnotation, TargetDirAnnotation("test_run_dir/QSU_Top"))) { dut =>
+          dut.io.in_QSV(0).poke("h38000000".U) //000 : 0.5...
           dut.io.in_QSV(1).poke("h00000000".U) //001 : 0...
           dut.clock.step()
           dut.io.in_en_replaceQSV.poke(1.B)
@@ -296,7 +300,15 @@ class OneQubitQSU_Test extends AnyFlatSpec with ChiselScalatestTester {
           dut.io.in_en_replaceQSV.poke(0.B)
           dut.clock.step(5)
 
-          dut.io.in_Gate_Sel.poke("h11".U)
+          dut.io.in_Gate_Sel.poke(16.U) // Normalization process
+          dut.clock.step()
+          dut.io.in_applyGate.poke(1.B)
+          dut.clock.step()
+          dut.io.in_applyGate.poke(0.B)
+          dut.clock.step(50)
+          dut.io.out_flag.expect(1.B)
+
+          dut.io.in_Gate_Sel.poke(1.U) // Accelerated X gate
           dut.clock.step()
           dut.io.in_applyGate.poke(1.B)
           dut.clock.step()
@@ -304,7 +316,7 @@ class OneQubitQSU_Test extends AnyFlatSpec with ChiselScalatestTester {
           dut.clock.step(20)
           dut.io.out_flag.expect(1.B)
 
-          dut.io.in_Gate_Sel.poke(20.U)
+          dut.io.in_Gate_Sel.poke(17.U) // FPU hadamard gate
           dut.clock.step()
           dut.io.in_applyGate.poke(1.B)
           dut.clock.step()
@@ -312,12 +324,61 @@ class OneQubitQSU_Test extends AnyFlatSpec with ChiselScalatestTester {
           dut.clock.step(20)
           dut.io.out_flag.expect(1.B)
 
-          dut.io.in_Gate_Sel.poke(21.U)
+          dut.io.in_Gate_Sel.poke(31.U) // Measurement gate
           dut.clock.step()
           dut.io.in_applyGate.poke(1.B)
           dut.clock.step()
           dut.io.in_applyGate.poke(0.B)
-          dut.clock.step(20)
+          dut.clock.step(50)
           dut.io.out_flag.expect(1.B)
+
       }
+}
+
+//Fixed Point
+class FixedOneQubitQSU_Test extends AnyFlatSpec with ChiselScalatestTester {
+  "FixedQSU" should "Do_A_Thing" in
+    test(new TopQSU(/*qubits*/ 1, /*bw*/ 16, true)).withAnnotations(
+      Seq(WriteVcdAnnotation, TargetDirAnnotation("test_run_dir/QSU_Top"))) { dut =>
+      dut.io.in_QSV(0).poke(0x20000000.U) //000 : 0.5...
+      dut.io.in_QSV(1).poke(0x00000000.U) //001 : 0...
+      dut.clock.step()
+      dut.io.in_en_replaceQSV.poke(1.B)
+      dut.clock.step()
+      dut.io.in_en_replaceQSV.poke(0.B)
+      dut.clock.step(5)
+
+      dut.io.in_Gate_Sel.poke(16.U) // Normalization process
+      dut.clock.step()
+      dut.io.in_applyGate.poke(1.B)
+      dut.clock.step()
+      dut.io.in_applyGate.poke(0.B)
+      dut.clock.step(50)
+      dut.io.out_flag.expect(1.B)
+
+      dut.io.in_Gate_Sel.poke(1.U) // Accelerated X gate
+      dut.clock.step()
+      dut.io.in_applyGate.poke(1.B)
+      dut.clock.step()
+      dut.io.in_applyGate.poke(0.B)
+      dut.clock.step(20)
+      dut.io.out_flag.expect(1.B)
+
+      dut.io.in_Gate_Sel.poke(17.U) // FPU hadamard gate
+      dut.clock.step()
+      dut.io.in_applyGate.poke(1.B)
+      dut.clock.step()
+      dut.io.in_applyGate.poke(0.B)
+      dut.clock.step(20)
+      dut.io.out_flag.expect(1.B)
+
+      dut.io.in_Gate_Sel.poke(31.U) // Measurement gate
+      dut.clock.step()
+      dut.io.in_applyGate.poke(1.B)
+      dut.clock.step()
+      dut.io.in_applyGate.poke(0.B)
+      dut.clock.step(50)
+      dut.io.out_flag.expect(1.B)
+
+    }
 }

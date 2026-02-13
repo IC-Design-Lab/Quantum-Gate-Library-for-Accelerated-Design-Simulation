@@ -25,7 +25,7 @@ class QSUController extends Module {
   /*out_en_QGP will be from a register that follows the following conditions:
       It will start and reset to 0.B
       When it's 0.B, it will only change to 1.B when in_applygate = 1.B and in_valid = 0.B
-      When it's 1.B, tt will only change to 0.B after the gates have been updated
+      When it's 1.B, it will only change to 0.B after the gates have been updated
    */
   val en_QGP        = RegInit(0.B)
   en_QGP           := en_QGP || (io.in_applygate & !en_QGP & !io.in_valid)
@@ -54,7 +54,11 @@ class QSUController extends Module {
   }
 }
 
-//low is hold
+/*-----------------------------------------------------------------------
+
+    Select Hold  -  For keeping maintaining signals for the matrix to complete the cycles.
+
+------------------------------------------------------------------------*/
 class QSUSelHold(val num_of_qubits : Int, val permutation_Seq : Seq[Int]) extends Module{
   val io = IO(new Bundle{
     val in_sel_gate    =  Input(UInt(5.W))
@@ -63,14 +67,18 @@ class QSUSelHold(val num_of_qubits : Int, val permutation_Seq : Seq[Int]) extend
     val out_sel_gate   = Output(UInt(5.W))
     val out_sel_perm   = Output(MixedVec(permutation_Seq.map(i => UInt(ceil(log(num_of_qubits - i)/log(2)).toInt.W))))
   })
+
   //Initiation of the Registers
   val holdGate = RegInit(0.U(5.W))
   val holdPerm : Seq[UInt] = permutation_Seq.map { i =>
     val reg = RegInit(0.U(ceil(log(num_of_qubits - i) / log(2)).toInt.W))
     reg
   }
+
   //IO of the registers
-  holdGate := Mux(io.in_hold, io.in_sel_gate, holdGate) //input
+  when(io.in_hold === 0.B){
+    holdGate := io.in_sel_gate //input
+  }
   io.out_sel_gate := holdGate                           //output
   for(i <- 0 until permutation_Seq.length) {
     holdPerm(i) := Mux(io.in_hold, io.in_sel_perm(i), holdPerm(i))  //Input

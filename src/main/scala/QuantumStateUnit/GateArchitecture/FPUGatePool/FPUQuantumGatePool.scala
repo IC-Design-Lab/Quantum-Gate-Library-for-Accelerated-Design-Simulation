@@ -32,7 +32,7 @@ U gate/ custom gate             22
             Measure
 Measurement Gate                31
  */
-class FPUQuantumGatePool(val num_of_qubits : Int, val bitwidth :Int) extends Module {
+class FPUQuantumGatePool(val num_of_qubits : Int, val bitwidth :Int) extends Module with GPInterface {
   //Simplifying FPU requirements
   require(bitwidth == 16 || bitwidth == 32 || bitwidth == 64 || bitwidth == 128)
   val bit_width = 2*bitwidth
@@ -42,17 +42,9 @@ class FPUQuantumGatePool(val num_of_qubits : Int, val bitwidth :Int) extends Mod
     case 64  => (52,  1, 1)
     case 128 => (112, 1, 1)
   }
+  /*-------------------IO Here-------------------*/
+  val io = IO(new GatePoolInterface(num_of_qubits, bitwidth))
 
-  val io = IO(new Bundle {
-    val in_QSV    = Input(Vec(pow(2, num_of_qubits).toInt, UInt(bit_width.W)))
-    val in_Ugate  = Input(Vec(4, UInt(bit_width.W)))
-    val in_sel    = Input(UInt(5.W)) // 1 bit sel between nonfpu and fpu and 4 bit sel for the actual select
-    val in_noise  = Input(UInt(32.W))
-    val in_valid  = Input(Bool())
-    val out_valid = Output(Bool())
-    val out_QSV   = Output(Vec(pow(2, num_of_qubits).toInt, UInt(bit_width.W)))
-    val out_MQ    = Output(Bool()) //The measured Qubits Value
-  })
   //two gate pools and measurement
   val FPUGatepool    = Module(new FPUPool(num_of_qubits, bit_width, mult_pd, add_pd))
   val nonFPUGatepool = Module(new AcceleratedGatePool(num_of_qubits, bit_width))

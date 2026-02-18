@@ -10,7 +10,7 @@ class FixedComplexAdder(val bitwidth : Int) extends Module{
     val in_b =  Input(Vec(2, SInt(bitwidth.W)))
     val out  = Output(Vec(2, SInt(bitwidth.W)))
   })
-  val Adder = Seq.fill(2)(Module(new FixedAdder(bitwidth, false)))
+  val Adder = Seq.fill(2)(Module(new FixedAdder(bitwidth, true)))
 
   // a + bj + c + dj = (a + c) + (bj + dj)
   Adder(0).io.in(0) := io.in_a(0)
@@ -29,7 +29,7 @@ class FixedComplexSubber(val bitwidth : Int) extends Module{
     val in_b =  Input(Vec(2, SInt(bitwidth.W)))
     val out  = Output(Vec(2, SInt(bitwidth.W)))
   })
-  val Subber = Seq.fill(2)(Module(new FixedSubber(bitwidth, false)))
+  val Subber = Seq.fill(2)(Module(new FixedSubber(bitwidth, true)))
 
   // (a + bj) - (c + dj) = (a - c) + (bj - dj)
   Subber(0).io.in(0) := io.in_a(0)

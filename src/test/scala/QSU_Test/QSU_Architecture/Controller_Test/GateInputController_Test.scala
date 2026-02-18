@@ -1,6 +1,5 @@
 package QSU_Test.QSU_Architecture.Controller_Test
 
-import QuantumStateUnit.Old.AlgorithmManager
 import QuantumStateUnit.QSU_Architecture.QSUController
 import chisel3._
 import chiseltest._

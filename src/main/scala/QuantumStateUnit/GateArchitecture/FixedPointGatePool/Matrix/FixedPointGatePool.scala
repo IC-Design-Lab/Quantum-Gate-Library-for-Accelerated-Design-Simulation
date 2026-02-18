@@ -96,7 +96,7 @@ class FixedGateMult(val num_of_qubits : Int, val bitwidth : Int) extends Module 
 
   //Common Values
   val one             = "h4000000000000000".U(63, 64 - bitwidth).asSInt //1
-  val sqrtOneHalf     = "h2D413CCD022A3B62".U(63, 64 - bitwidth).asSInt //sqrt(2) = 0.707...
+  val sqrtOneHalf     = "h2D413CCD022A3B62".U(63, 64 - bitwidth).asSInt //sqrt(1/2) = 0.707...
       sqrtOneHalfNeg  := -1.S * sqrtOneHalf
   val oneHalf         = "h2000000000000000".U(63, 64 - bitwidth).asSInt //0.5
       oneHalfNeg      := -1.S * oneHalf

@@ -19,6 +19,21 @@ class FixedAdder(val bitwidth : Int, val regOut : Boolean) extends Module {
   }
 }
 
+class FixedSubber(val bitwidth : Int, val regOut : Boolean) extends Module {
+  override def desiredName = s"Fixed${bitwidth}BitAdder"
+  val io = IO(new Bundle{
+    val in  =  Input(Vec(2, SInt(bitwidth.W)))
+    val out = Output(SInt(bitwidth.W))
+  })
+  if(regOut){
+    val reg = RegInit(0.S(bitwidth.W))
+    reg    :=  io.in(0) - io.in(1)
+    io.out := reg
+  }else {
+    io.out := io.in(0) - io.in(1)
+  }
+}
+
 class FixedMultiplier(val bitwidth : Int, val pointLoc : Int) extends Module{
   override def desiredName = s"Fixed${bitwidth}BitMultiplier"
   val io = IO(new Bundle{

@@ -6,6 +6,7 @@ import QuantumStateUnit.GateArchitecture.FixedPointGatePool._
 import QuantumStateUnit.GateArchitecture.FPUGatePool._
 import FixedPointUnit._
 import New_FPU_Mario.FPUnits.{FP_add, FP_mult}
+import QuantumLayers.ArithmiticGates.TestVariant.TestVariant
 import QuantumStateUnit.GateArchitecture.AcceleratedGatePool
 import QuantumStateUnit.GateArchitecture.FPUGatePool.Matrix.FPUPool
 import QuantumStateUnit.GateArchitecture.FPUGatePool.MeasurementGate.Measurement
@@ -13,6 +14,7 @@ import QuantumStateUnit.GateArchitecture.FPUGatePool._
 import QuantumStateUnit.GateArchitecture.FixedPointGatePool.Matrix.MatrixMult_SquareXKet
 import QuantumStateUnit.GateArchitecture.FixedPointGatePool.MeasurementGate.Components.{CollapseProbability, CompareWithRandom, GetNormalization}
 import QuantumStateUnit.GateArchitecture.FixedPointGatePool.MeasurementGate.MeasurementGate
+import QuantumLayers.ArithmiticGates._
 import QuantumStateUnit.OtherComponents.CondenseInputs._
 import QuantumStateUnit.QSU_Architecture._
 import chisel3._
@@ -180,6 +182,6 @@ object main extends App{
   emitVerilog(new TopQSU(1, 16, true))
 }
 */
-object main extends App{
-  emitVerilog(new TopQSU(1, 16, false))
+object main extends App{ //3 7 15 23
+  emitVerilog(new TestVariant(32, 16, H))
 }

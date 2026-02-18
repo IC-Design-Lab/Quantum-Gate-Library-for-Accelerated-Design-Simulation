@@ -60,18 +60,19 @@ class TGate(val bitwidth : Int) extends Module with GIO{
 
   /*
   | 1     0    | | a |  = |      a       |
-  | 0 e^(pi/8) | | b |    | b * e^(pi/8) |
+  | 0 e^(pi/8) | | b |    | b * e^(pi/4) |
   Aout = sqrt(1/2)
    */
 
   val sqrtOneHalf     = "h2D413CCD022A3B62".U(63, 64 - bitwidth).asSInt //sqrt(1/2) = 0.707...
 
-  //e^(pi/8) = sqrt(1/2) + j sqrt(1/2)
+  //e^(pi/4) = sqrt(1/2) + j sqrt(1/2)
   multiplier.io.in_a := io.in_QSV(1)
   multiplier.io.in_b := VecInit(sqrtOneHalf, sqrtOneHalf)
 
   //io out
   val regout  = RegInit(io.in_QSV(0))
+  regout      := io.in_QSV(0)
   io.out_QSV := VecInit(regout, multiplier.io.out)
 
   //valid travel
@@ -88,6 +89,7 @@ class XGate(val bitwidth : Int) extends Module with GIO{
    */
   val reg   = RegInit(io.in_QSV)
   val delay = RegInit(io.in_valid)
+  reg := io.in_QSV
   io.out_QSV    := VecInit(reg(1), reg(0)) //swap values
   io.out_valid  := delay
 }
@@ -102,8 +104,13 @@ QSV:      | a+jb |  -> new QSV ->  |-d+jc |
    */
   val negA   = WireInit((io.in_QSV(0)(0)*(-1.S)).asSInt)
   val negD   = WireInit((io.in_QSV(1)(1)*(-1.S)).asSInt)
+
   val value0 = RegInit(VecInit(negD, io.in_QSV(1)(0)))
   val value1 = RegInit(VecInit(io.in_QSV(0)(1), negA))
+
+  value0  := VecInit(negD, io.in_QSV(1)(0))
+  value1  := VecInit(io.in_QSV(0)(1), negA)
+
   io.out_QSV := VecInit(value0, value1)
   val delay  = RegInit(io.in_valid)
   io.out_valid  := delay
@@ -119,8 +126,13 @@ QSV:      | a+jb |  -> new QSV ->  | a+jb |
    */
   val negC   = WireInit((io.in_QSV(1)(0)*(-1.S)).asSInt)
   val negD   = WireInit((io.in_QSV(1)(1)*(-1.S)).asSInt)
+
   val value0 = RegInit(io.in_QSV(0))
-  val value1 = RegInit(negC, negD)
+  val value1 = RegInit(VecInit(negC, negD))
+
+  value0 := io.in_QSV(0)
+  value1 := VecInit(negD, negC)
+
   io.out_QSV := VecInit(value0, value1)
   val delay  = RegInit(io.in_valid)
   io.out_valid  := delay
@@ -136,6 +148,7 @@ class ControlledNotGate(val bitwidth : Int) extends Module with GIO {
    */
   val reg   = RegInit(io.in_QSV)
   val delay = RegInit(io.in_valid)
+  reg := io.in_QSV
   io.out_QSV := VecInit(reg(0), reg(1), reg(3), reg(2))
   io.out_valid := delay
 }
@@ -148,8 +161,9 @@ Matrix: | 1 0 0 0 |
         | 0 1 0 0 |
         | 0 0 0 1 |
  */
-val reg   = RegInit(io.in_QSV)
+  val reg   = RegInit(io.in_QSV)
   val delay = RegInit(io.in_valid)
+  reg := io.in_QSV
   io.out_QSV := VecInit(reg(0), reg(2), reg(1), reg(3 ))
   io.out_valid := delay
 }

@@ -93,18 +93,6 @@ circuit HGate3QubitVector16bit :
     Multiplier_3.io_in_0 <= io_in_a_1 @[\\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala 72:26]
     Multiplier_3.io_in_1 <= io_in_b_0 @[\\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala 73:26]
 
-  module Fixed16BitAdder_4 : @[\\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala 7:7]
-    input clock : Clock @[\\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala 7:7]
-    input reset : UInt<1> @[\\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala 7:7]
-    input io_in_0 : SInt<16> @[\\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala 9:14]
-    input io_in_1 : SInt<16> @[\\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala 9:14]
-    output io_out : SInt<16> @[\\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala 9:14]
-
-    node _io_out_T = add(io_in_0, io_in_1) @[\\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala 18:24]
-    node _io_out_T_1 = tail(_io_out_T, 1) @[\\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala 18:24]
-    node _io_out_T_2 = asSInt(_io_out_T_1) @[\\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala 18:24]
-    io_out <= _io_out_T_2 @[\\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala 18:12]
-
   module FixedComplexAdder : @[\\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala 7:7]
     input clock : Clock @[\\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala 7:7]
     input reset : UInt<1> @[\\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala 7:7]
@@ -115,8 +103,8 @@ circuit HGate3QubitVector16bit :
     output io_out_0 : SInt<16> @[\\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala 8:14]
     output io_out_1 : SInt<16> @[\\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala 8:14]
 
-    inst Adder_0 of Fixed16BitAdder_4 @[\\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala 13:33]
-    inst Adder_1 of Fixed16BitAdder_4 @[\\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala 13:33]
+    inst Adder_0 of Fixed16BitAdder_1 @[\\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala 13:33]
+    inst Adder_1 of Fixed16BitAdder_1 @[\\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala 13:33]
     io_out_0 <= Adder_0.io_out @[\\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala 22:13]
     io_out_1 <= Adder_1.io_out @[\\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala 23:13]
     Adder_0.clock <= clock
@@ -128,18 +116,6 @@ circuit HGate3QubitVector16bit :
     Adder_1.io_in_0 <= io_in_a_1 @[\\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala 19:21]
     Adder_1.io_in_1 <= io_in_b_1 @[\\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala 20:21]
 
-  module Fixed16BitAdder_6 : @[\\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala 22:7]
-    input clock : Clock @[\\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala 22:7]
-    input reset : UInt<1> @[\\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala 22:7]
-    input io_in_0 : SInt<16> @[\\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala 24:14]
-    input io_in_1 : SInt<16> @[\\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala 24:14]
-    output io_out : SInt<16> @[\\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala 24:14]
-
-    node _io_out_T = sub(io_in_0, io_in_1) @[\\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala 33:24]
-    node _io_out_T_1 = tail(_io_out_T, 1) @[\\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala 33:24]
-    node _io_out_T_2 = asSInt(_io_out_T_1) @[\\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala 33:24]
-    io_out <= _io_out_T_2 @[\\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala 33:12]
-
   module FixedComplexSubber : @[\\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala 26:7]
     input clock : Clock @[\\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala 26:7]
     input reset : UInt<1> @[\\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala 26:7]
@@ -150,8 +126,8 @@ circuit HGate3QubitVector16bit :
     output io_out_0 : SInt<16> @[\\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala 27:14]
     output io_out_1 : SInt<16> @[\\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala 27:14]
 
-    inst Subber_0 of Fixed16BitAdder_6 @[\\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala 32:34]
-    inst Subber_1 of Fixed16BitAdder_6 @[\\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala 32:34]
+    inst Subber_0 of Fixed16BitAdder @[\\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala 32:34]
+    inst Subber_1 of Fixed16BitAdder @[\\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala 32:34]
     io_out_0 <= Subber_0.io_out @[\\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala 41:13]
     io_out_1 <= Subber_1.io_out @[\\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala 42:13]
     Subber_0.clock <= clock

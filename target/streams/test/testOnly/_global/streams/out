@@ -1,11 +1,11 @@
-[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(QuantumLayers.PerformanceEvaluation.Hadamard3, org.scalatest.tools.Framework$$anon$1@20c90c8, false, [SuiteSelector])[0m
-[0m[[0m[0minfo[0m] [0m[0m[32mHadamard3:[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[32mQSU[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[32m- should Create state, then mesure[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[36mRun completed in 6 seconds, 605 milliseconds.[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(QuantumLayers.PerformanceEvaluation.CNot2, org.scalatest.tools.Framework$$anon$1@507c538f, false, [SuiteSelector])[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mCNot2:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mCNot2[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should not disappoint[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mRun completed in 4 seconds, 231 milliseconds.[0m[0m
 [0m[[0m[0minfo[0m] [0m[0m[36mTotal number of tests run: 1[0m[0m
 [0m[[0m[0minfo[0m] [0m[0m[36mSuites: completed 1, aborted 0[0m[0m
 [0m[[0m[0minfo[0m] [0m[0m[36mTests: succeeded 1, failed 0, canceled 0, ignored 0, pending 0[0m[0m
 [0m[[0m[0minfo[0m] [0m[0m[32mAll tests passed.[0m[0m
 [0m[[0m[0mdebug[0m] [0m[0mPassed tests:[0m
-[0m[[0m[0mdebug[0m] [0m[0m	QuantumLayers.PerformanceEvaluation.Hadamard3[0m
+[0m[[0m[0mdebug[0m] [0m[0m	QuantumLayers.PerformanceEvaluation.CNot2[0m

@@ -183,5 +183,5 @@ object main extends App{
 }
 */
 object main extends App{ //3 7 15 23
-  emitVerilog(new TestVariant(32, 16, H))
+  emitVerilog(new TestVariant(1, 4, T))
 }

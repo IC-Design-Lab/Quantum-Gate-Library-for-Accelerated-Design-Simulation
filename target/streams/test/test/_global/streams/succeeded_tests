@@ -1,11 +1,12 @@
 #Successful Tests
-#Tue Feb 17 18:27:30 CST 2026
+#Wed Feb 18 01:04:12 CST 2026
 FixedGatePool_Test.TestFixedGateMult=1759422011677
 QSU_Test.FixedOneQubitQSU_Test=1770768300045
 FPU_Test.TestFixedComplexMult=1758254804507
 FPU_Test.TestFixedPointMultiplier=1757618109879
 QSU_Test.TwoQubitMeasure_Test=1770828205119
 QSU_Test.QSU_Architecture.Permutation_Test.InitialSwitch0_Test=1756180722714
+QuantumLayers.PerformanceEvaluation.PauliX3=1771394630231
 QSU_Test.ThreeQubitMeasure_Test=1770828237082
 Misc.TestProbabilityOfCompare=1761952792134
 FPU_Test.TestSimpleSqrt=1761232994278
@@ -16,7 +17,9 @@ FPU_Test.TestFixedComplexAdd=1757807296835
 QSU_Test.QSU_Test1=1770688889841
 FPU_Test.TestFPSqrt=1757610798088
 QSU_Test.OneQubitQSU_Test=1770766570903
-QuantumLayers.PerformanceEvaluation.Hadamard3=1771374450197
+QuantumLayers.PerformanceEvaluation.TGate2=1771397497299
+QuantumLayers.PerformanceEvaluation.Hadamard3=1771392584467
 FPU_Test.TestFixedPointAdder=1757610942776
 FixedGatePool_Test.TestFixedMatrixMult=1759205274564
 FPU_Test.TestFixedPointDivider=1757786010754
+QuantumLayers.PerformanceEvaluation.CNot2=1771398252409

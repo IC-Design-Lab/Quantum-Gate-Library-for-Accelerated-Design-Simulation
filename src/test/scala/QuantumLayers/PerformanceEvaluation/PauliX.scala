@@ -1,6 +1,7 @@
 package QuantumLayers.PerformanceEvaluation
 
 import QuantumLayers.ArithmiticGates._
+import QuantumLayers.ArithmiticGates.Gates._
 import chisel3._
 import chiseltest._
 import firrtl2.options.TargetDirAnnotation

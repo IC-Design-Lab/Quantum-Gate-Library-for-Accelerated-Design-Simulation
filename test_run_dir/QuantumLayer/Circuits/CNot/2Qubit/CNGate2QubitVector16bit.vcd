@@ -1,0 +1,233 @@
+$date
+2026-02-18T07:04+0000
+$end
+$version
+0.2
+$end
+$comment
+
+$end
+$timescale 1ns  $end
+$scope module CNGate2QubitVector16bit $end
+ $var wire 1 ' io_out_valid $end
+ $var wire 16 2 io_in_QSV_2_1 $end
+ $var wire 16 3 io_in_QSV_0_0 $end
+ $var wire 16 4 io_in_QSV_0_1 $end
+ $var wire 1 5 clock $end
+ $var wire 16 6 io_in_QSV_2_0 $end
+ $var wire 16 9 io_out_QSV_1_1 $end
+ $var wire 16 < io_out_QSV_3_0 $end
+ $var wire 16 ? io_out_QSV_1_0 $end
+ $var wire 16 A io_out_QSV_3_1 $end
+ $var wire 1 E reset $end
+ $var wire 1 M io_in_valid $end
+ $var wire 16 T io_in_QSV_3_0 $end
+ $var wire 16 U io_in_QSV_3_1 $end
+ $var wire 16 V io_in_QSV_1_0 $end
+ $var wire 16 W io_in_QSV_1_1 $end
+ $var wire 1 Y gate_0 $end
+ $var wire 16 Z io_out_QSV_2_0 $end
+ $var wire 16 ] io_out_QSV_2_1 $end
+ $var wire 16 _ io_out_QSV_0_0 $end
+ $var wire 16 a io_out_QSV_0_1 $end
+  $scope module gate_0.gate $end
+  $upscope $end
+  $scope module gate_0 $end
+   $var wire 16 ! io_in_QSV_2_1 $end
+   $var wire 16 " io_in_QSV_2_0 $end
+   $var wire 16 $ io_in_QSV_0_1 $end
+   $var wire 16 % io_in_QSV_0_0 $end
+   $var wire 1 & reset $end
+   $var wire 16 ) io_out_QSV_3_1 $end
+   $var wire 16 - io_out_QSV_1_1 $end
+   $var wire 16 . io_out_QSV_3_0 $end
+   $var wire 1 / clock $end
+   $var wire 16 8 io_out_QSV_0_0 $end
+   $var wire 16 ; io_out_QSV_0_1 $end
+   $var wire 1 D io_in_valid $end
+   $var wire 1 H io_out_valid $end
+   $var wire 16 I io_in_QSV_3_1 $end
+   $var wire 16 J io_in_QSV_3_0 $end
+   $var wire 16 K io_in_QSV_1_1 $end
+   $var wire 16 L io_in_QSV_1_0 $end
+   $var wire 16 P io_out_QSV_2_0 $end
+   $var wire 16 R io_out_QSV_2_1 $end
+   $var wire 16 \ io_out_QSV_1_0 $end
+   $var wire 1 g gate $end
+    $scope module gate $end
+     $var wire 1 # reset $end
+     $var wire 1 ( delay $end
+     $var wire 1 * clock $end
+     $var wire 16 + io_out_QSV_1_1 $end
+     $var wire 16 , io_out_QSV_1_0 $end
+     $var wire 1 0 io_out_valid $end
+     $var wire 16 1 io_in_QSV_3_1 $end
+     $var wire 16 7 io_in_QSV_1_1 $end
+     $var wire 16 : io_in_QSV_3_0 $end
+     $var wire 16 = io_out_QSV_3_1 $end
+     $var wire 16 > io_in_QSV_1_0 $end
+     $var wire 16 @ io_out_QSV_3_0 $end
+     $var wire 16 B reg_3_0 $end
+     $var wire 16 C reg_3_1 $end
+     $var wire 16 F reg_1_0 $end
+     $var wire 16 G reg_1_1 $end
+     $var wire 16 N io_out_QSV_2_0 $end
+     $var wire 16 O io_out_QSV_0_1 $end
+     $var wire 16 Q io_out_QSV_0_0 $end
+     $var wire 1 S io_in_valid $end
+     $var wire 16 X io_in_QSV_2_0 $end
+     $var wire 16 [ io_in_QSV_2_1 $end
+     $var wire 16 ^ io_in_QSV_0_0 $end
+     $var wire 16 ` io_in_QSV_0_1 $end
+     $var wire 16 b io_out_QSV_2_1 $end
+     $var wire 16 c reg_2_1 $end
+     $var wire 16 d reg_0_0 $end
+     $var wire 16 e reg_0_1 $end
+     $var wire 16 f reg_2_0 $end
+    $upscope $end
+  $upscope $end
+$upscope $end
+$enddefinitions $end
+$dumpvars
+b0000000000000000 !
+00
+b0000000000000000 %
+b0000000000000000 $
+05
+b0000000000000000 "
+b0000000000000000 )
+b0000000000000000 -
+b0000000000000000 ,
+b0000000000000000 +
+b0000000000000000 1
+b0000000000000000 .
+0D
+b0000000000000000 4
+0E
+b0000000000000000 3
+b0000000000000000 2
+b0000000000000000 9
+0H
+b0000000000000000 8
+b0000000000000000 7
+b0000000000000000 6
+b0000000000000000 =
+b0000000000000000 <
+0M
+b0000000000000000 ;
+b0000000000000000 :
+0S
+0Y
+0g
+b0000000000000000 a
+b0000000000000000 `
+b0000000000000000 _
+b0000000000000000 ^
+b0000000000000000 e
+b0000000000000000 d
+b0000000000000000 c
+b0000000000000000 b
+b0000000000000000 f
+b0000000000000000 A
+b0000000000000000 @
+b0000000000000000 ?
+b0000000000000000 >
+b0000000000000000 C
+b0000000000000000 B
+b0000000000000000 I
+b0000000000000000 G
+b0000000000000000 F
+b0000000000000000 L
+b0000000000000000 K
+b0000000000000000 J
+b0000000000000000 Q
+b0000000000000000 P
+b0000000000000000 O
+b0000000000000000 N
+0#
+b0000000000000000 U
+b0000000000000000 T
+0&
+b0000000000000000 R
+0'
+0(
+b0000000000000000 X
+b0000000000000000 W
+0*
+b0000000000000000 V
+b0000000000000000 ]
+b0000000000000000 \
+b0000000000000000 [
+b0000000000000000 Z
+0/
+$end
+#0
+1#
+1E
+1&
+#1
+15
+1*
+1/
+#6
+0#
+05
+0E
+0&
+0*
+0/
+#11
+15
+1*
+1/
+#16
+1D
+b0010110101000001 %
+b0010110101000001 I
+0*
+1M
+0/
+b0010110101000001 1
+b0010110101000001 3
+1S
+05
+b0010110101000001 U
+b0010110101000001 ^
+#21
+b0010110101000001 Q
+b0010110101000001 R
+b0010110101000001 b
+b0010110101000001 C
+b0010110101000001 d
+15
+b0010110101000001 8
+1*
+b0010110101000001 ]
+1/
+b0010110101000001 _
+#26
+05
+0*
+0/
+#31
+15
+1*
+1/
+#36
+05
+0*
+0/
+#41
+15
+1*
+1/
+#46
+05
+0*
+0/
+#51
+15
+1*
+1/
+#56
+05

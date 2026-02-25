@@ -5,8 +5,15 @@
 [0m[[0m[31merror[0m] [0m[0mSTDOUT:[0m
 [0m[[0m[31merror[0m] [0m[0m[0m
 [0m[[0m[31merror[0m] [0m[0mSTDERR:[0m
-[0m[[0m[31merror[0m] [0m[0m\\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\TestVariant.scala:14:22: error: 'firrtl.reg' op result #0 must be a passive non-'const' base type that does not contain analog, but got '!firrtl.bundle<in_QSV flip: vector<vector<sint<16>, 2>, 8>, in_valid flip: uint<1>, out_QSV: vector<vector<sint<16>, 2>, 8>, out_valid: uint<1>>'[0m
-[0m[[0m[31merror[0m] [0m[0m\\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\TestVariant.scala:14:22: note: see current operation: %28 = "firrtl.reg"(%arg0) {annotations = [], name = "regIO", nameKind = #firrtl<name_kind interesting_name>} : (!firrtl.clock) -> !firrtl.bundle<in_QSV flip: vector<vector<sint<16>, 2>, 8>, in_valid flip: uint<1>, out_QSV: vector<vector<sint<16>, 2>, 8>, out_valid: uint<1>>[0m
+[0m[[0m[31merror[0m] [0m[0m\\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\GeneratePipline.scala:23:21: error: sink "current_QSV_0_0" not fully initialized in "GeneratePiplinedGates"[0m
+[0m[[0m[31merror[0m] [0m[0m\\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\GeneratePipline.scala:23:21: error: sink "current_QSV_0_1" not fully initialized in "GeneratePiplinedGates"[0m
+[0m[[0m[31merror[0m] [0m[0m\\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\GeneratePipline.scala:23:21: error: sink "current_QSV_1_0" not fully initialized in "GeneratePiplinedGates"[0m
+[0m[[0m[31merror[0m] [0m[0m\\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\GeneratePipline.scala:23:21: error: sink "current_QSV_1_1" not fully initialized in "GeneratePiplinedGates"[0m
+[0m[[0m[31merror[0m] [0m[0m\\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\GeneratePipline.scala:23:21: error: sink "current_QSV_2_0" not fully initialized in "GeneratePiplinedGates"[0m
+[0m[[0m[31merror[0m] [0m[0m\\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\GeneratePipline.scala:23:21: error: sink "current_QSV_2_1" not fully initialized in "GeneratePiplinedGates"[0m
+[0m[[0m[31merror[0m] [0m[0m\\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\GeneratePipline.scala:23:21: error: sink "current_QSV_3_0" not fully initialized in "GeneratePiplinedGates"[0m
+[0m[[0m[31merror[0m] [0m[0m\\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\GeneratePipline.scala:23:21: error: sink "current_QSV_3_1" not fully initialized in "GeneratePiplinedGates"[0m
+[0m[[0m[31merror[0m] [0m[0m\\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\GeneratePipline.scala:23:21: error: sink "current_valid" not fully initialized in "GeneratePiplinedGates"[0m
 [0m[[0m[31merror[0m] [0m[0m[0m
 [0m[[0m[31merror[0m] [0m[0m------------------------------------------------------------------------------[0m
 [0m[[0m[31merror[0m] [0m[0m(Compile / [31mrun[0m) circt.stage.phases.Exceptions$FirtoolNonZeroExitCode: C:\Users\jerem\AppData\Local\org.chipsalliance\llvm-firtool\cache\1.62.0\bin\firtool returned a non-zero exit code. Note that this version of Chisel (6.1.0) was published against firtool version 1.62.0.[0m
@@ -16,7 +23,14 @@
 [0m[[0m[31merror[0m] [0m[0mSTDOUT:[0m
 [0m[[0m[31merror[0m] [0m[0m[0m
 [0m[[0m[31merror[0m] [0m[0mSTDERR:[0m
-[0m[[0m[31merror[0m] [0m[0m\\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\TestVariant.scala:14:22: error: 'firrtl.reg' op result #0 must be a passive non-'const' base type that does not contain analog, but got '!firrtl.bundle<in_QSV flip: vector<vector<sint<16>, 2>, 8>, in_valid flip: uint<1>, out_QSV: vector<vector<sint<16>, 2>, 8>, out_valid: uint<1>>'[0m
-[0m[[0m[31merror[0m] [0m[0m\\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\TestVariant.scala:14:22: note: see current operation: %28 = "firrtl.reg"(%arg0) {annotations = [], name = "regIO", nameKind = #firrtl<name_kind interesting_name>} : (!firrtl.clock) -> !firrtl.bundle<in_QSV flip: vector<vector<sint<16>, 2>, 8>, in_valid flip: uint<1>, out_QSV: vector<vector<sint<16>, 2>, 8>, out_valid: uint<1>>[0m
+[0m[[0m[31merror[0m] [0m[0m\\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\GeneratePipline.scala:23:21: error: sink "current_QSV_0_0" not fully initialized in "GeneratePiplinedGates"[0m
+[0m[[0m[31merror[0m] [0m[0m\\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\GeneratePipline.scala:23:21: error: sink "current_QSV_0_1" not fully initialized in "GeneratePiplinedGates"[0m
+[0m[[0m[31merror[0m] [0m[0m\\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\GeneratePipline.scala:23:21: error: sink "current_QSV_1_0" not fully initialized in "GeneratePiplinedGates"[0m
+[0m[[0m[31merror[0m] [0m[0m\\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\GeneratePipline.scala:23:21: error: sink "current_QSV_1_1" not fully initialized in "GeneratePiplinedGates"[0m
+[0m[[0m[31merror[0m] [0m[0m\\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\GeneratePipline.scala:23:21: error: sink "current_QSV_2_0" not fully initialized in "GeneratePiplinedGates"[0m
+[0m[[0m[31merror[0m] [0m[0m\\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\GeneratePipline.scala:23:21: error: sink "current_QSV_2_1" not fully initialized in "GeneratePiplinedGates"[0m
+[0m[[0m[31merror[0m] [0m[0m\\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\GeneratePipline.scala:23:21: error: sink "current_QSV_3_0" not fully initialized in "GeneratePiplinedGates"[0m
+[0m[[0m[31merror[0m] [0m[0m\\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\GeneratePipline.scala:23:21: error: sink "current_QSV_3_1" not fully initialized in "GeneratePiplinedGates"[0m
+[0m[[0m[31merror[0m] [0m[0m\\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\GeneratePipline.scala:23:21: error: sink "current_valid" not fully initialized in "GeneratePiplinedGates"[0m
 [0m[[0m[31merror[0m] [0m[0m[0m
 [0m[[0m[31merror[0m] [0m[0m------------------------------------------------------------------------------[0m

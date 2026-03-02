@@ -15,7 +15,8 @@ class PipeState(numQubits: Int, bitwidth: Int) extends Bundle {
   val valid = Bool()
 }
 
-class GeneratePiplinedGates(val num_of_qubits : Int, val bitwidth : Int, val Circuit : Seq[GateVsPerm]) extends Module{
+class GeneratePiplinedGates(val num_of_qubits : Int, val bitwidth : Int, val CircuitName : String, val Circuit : Seq[GateVsPerm]) extends Module{
+  override def desiredName: String = CircuitName
 
   val io = IO(new GateIO(num_of_qubits, bitwidth))
 

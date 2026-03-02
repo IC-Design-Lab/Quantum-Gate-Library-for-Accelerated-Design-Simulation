@@ -85,10 +85,10 @@ class SqrtXGate(val bitwidth : Int) extends Module with GIO{
     | 1-i 1+i | | c+id |        | ( a+b+c-d )+i(-a+b+c+d ) |
    */
   val regout = RegInit(io.out_QSV)
-  val a = WireInit(SInt(bitwidth.W))
-  val b = WireInit(SInt(bitwidth.W))
-  val c = WireInit(SInt(bitwidth.W))
-  val d = WireInit(SInt(bitwidth.W))
+  val a = Wire(SInt(bitwidth.W))
+  val b = Wire(SInt(bitwidth.W))
+  val c = Wire(SInt(bitwidth.W))
+  val d = Wire(SInt(bitwidth.W))
 
   //multiply by 1/2
   a := io.in_QSV(0)(0) >> 1

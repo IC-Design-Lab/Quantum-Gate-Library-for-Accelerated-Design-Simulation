@@ -16,4 +16,32 @@ case object CN  extends SpecifiedGate {def size = 2} //Controlled Not/X Gate
 case object SW  extends SpecifiedGate {def size = 2} //Swap Gate
  */
 
-//GeneratePiplinedGates(2, 16, (Gate(H), Gate(SW))
+/*
+Group0_0 & Group0_6
+GeneratePiplinedGates(2, 16, Seq(Gate(H), Gate(SW))
+
+Group0_1 & Group0_7
+GeneratePiplinedGates(2, 16, Seq(Gate(H), Perm(2,1), Gate(X), Perm(2,1), Gate(SW))
+
+Group0_2
+GeneratePiplinedGates(2, 16, Seq(Gate(H), Perm(2,1), Gate(H), Perm(2,1), Gate(SW))
+
+Group0_3
+GeneratePiplinedGates(2, 16, Seq(Gate(H), Perm(2,1), Gate(X), Gate(H), Perm(2,1), Gate(SW))
+
+Group0_4
+GeneratePiplinedGates(2, 16, Seq(Gate(H), Perm(2,1), Gate(SX), Perm(2,1), Gate(SW))
+
+Group0_5
+GeneratePiplinedGates(2, 16, Seq(Gate(H), Perm(2,1), Gate(X), Gate(SX), Perm(2,1), Gate(SW))
+
+
+Group1_0 & Group1_1 & Group1_6 & Group1_7
+GeneratePiplinedGates(2, 16, Seq(Gate(H), Perm(2,1), Gate(SW), Perm(2,1))
+
+Group1_2 & Group1_3
+GeneratePiplinedGates(2, 16, Seq(Gate(H), Perm(2,1), Gate(SW), Perm(2,1), Gate(H))
+
+Group1_4 & Group1_5
+GeneratePiplinedGates(2, 16, Seq(Gate(H), Perm(2,1), Gate(SW), Perm(2,1), Gate(SX))
+ */

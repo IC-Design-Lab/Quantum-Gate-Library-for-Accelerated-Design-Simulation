@@ -1,15 +1,15 @@
 package QuantumLayers.PerformanceEvaluation
 
 import QuantumLayers.ArithmiticGates.Permutation
-import QuantumLayers.ArithmiticGates.Permutation.rearrangeTo1stPosition
+import QuantumLayers.ArithmiticGates.Permutation.{SwapPositionXandY, rearrangeTo1stPosition}
 import chisel3._
 import chiseltest._
 import org.scalatest.flatspec.AnyFlatSpec
 
-
+//sbt "testOnly QuantumLayers.PerformanceEvaluation.PermutationTest"
 class PermutationTest extends AnyFlatSpec with ChiselScalatestTester {
   "SwitchPermutation0" should "GeneratePattern" in
-    test(new rearrangeTo1stPosition(3, 16, 2)) { dut =>
+    test(new SwapPositionXandY(3, 16, 2, 1)) { dut =>
 
       val numElems = dut.io.in_ket.length  // number of rows (e.g., 4)
       val complexSize = dut.io.in_ket(0).length  // should be 2 (real, imag)

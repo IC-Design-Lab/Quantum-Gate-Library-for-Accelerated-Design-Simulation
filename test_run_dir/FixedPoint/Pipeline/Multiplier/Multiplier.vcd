@@ -1,0 +1,228 @@
+$date
+2026-03-04T16:37+0000
+$end
+$version
+0.2
+$end
+$comment
+
+$end
+$timescale 1ns  $end
+$scope module Multiplier $end
+ $var wire 1 ! io_out_valid $end
+ $var wire 16 " output $end
+ $var wire 3 # output_lo $end
+ $var wire 1 $ reset $end
+ $var wire 2 % output_lo_hi $end
+ $var wire 2 & output_hi_hi $end
+ $var wire 1 ' io_in_valid $end
+ $var wire 8 ( inputs_4 $end
+ $var wire 4 ) output_hi $end
+ $var wire 8 * inputs_5 $end
+ $var wire 8 + inputs_2 $end
+ $var wire 8 , inputs_3 $end
+ $var wire 8 - inputs_0 $end
+ $var wire 8 . inputs_1 $end
+ $var wire 8 / inputs_6 $end
+ $var wire 8 0 inputs_7 $end
+ $var wire 9 1 next_4 $end
+ $var wire 9 2 next_5 $end
+ $var wire 9 3 next_6 $end
+ $var wire 9 4 next_1 $end
+ $var wire 9 5 next_2 $end
+ $var wire 9 6 next_3 $end
+ $var wire 1 7 clock $end
+ $var wire 1 8 io_out_valid_r $end
+ $var wire 16 9 io_out_data $end
+ $var wire 9 : next $end
+ $var wire 1 ; LSB_5 $end
+ $var wire 2 < output_hi_lo $end
+ $var wire 1 = LSB_4 $end
+ $var wire 1 > LSB_6 $end
+ $var wire 1 ? io_out_valid_r_1 $end
+ $var wire 1 @ LSB_1 $end
+ $var wire 1 A LSB_0 $end
+ $var wire 8 B io_out_fixed_data $end
+ $var wire 1 C LSB_3 $end
+ $var wire 1 D LSB_2 $end
+ $var wire 8 E io_in_multiplicant_1 $end
+ $var wire 8 F io_in_multiplicant_0 $end
+$upscope $end
+$enddefinitions $end
+$dumpvars
+b00000000 +
+b00000000 *
+b00000000 -
+b00000000 ,
+b00 <
+b0000000000000000 "
+07
+b00000000 (
+08
+0;
+0=
+0>
+0?
+0@
+0A
+0C
+b00 &
+0D
+b0000000000000000 9
+b00 %
+b000000000 1
+b00000000 /
+b00000000 .
+b00000000 0
+b000000000 5
+b000000000 4
+b000000000 3
+b000000000 2
+b000 #
+b00000000 F
+b000000000 6
+b00000000 B
+b00000000 E
+b000000000 :
+b0000 )
+0!
+0$
+0'
+$end
+#0
+1$
+#1
+17
+#6
+0$
+b00001010 E
+b00100000 F
+07
+#11
+17
+#16
+07
+#21
+17
+#26
+07
+#31
+17
+#36
+07
+#41
+17
+#46
+07
+#51
+17
+#56
+07
+#61
+17
+#66
+07
+#71
+17
+#76
+07
+#81
+17
+#86
+07
+#91
+17
+#96
+07
+#101
+17
+#106
+07
+#111
+17
+#116
+07
+#121
+17
+#126
+07
+#131
+17
+#136
+07
+#141
+17
+#146
+07
+#151
+17
+#156
+07
+#161
+17
+#166
+07
+#171
+17
+#176
+07
+#181
+17
+#186
+07
+#191
+17
+#196
+07
+#201
+17
+#206
+07
+#211
+17
+#216
+07
+#221
+17
+#226
+07
+#231
+17
+#236
+07
+#241
+17
+#246
+07
+#251
+17
+#256
+07
+#261
+17
+#266
+07
+#271
+17
+#276
+07
+#281
+17
+#286
+07
+#291
+17
+#296
+07
+#301
+17
+#306
+07
+#311
+17
+#316
+07
+#321
+17
+#326
+07

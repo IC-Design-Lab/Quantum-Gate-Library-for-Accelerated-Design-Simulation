@@ -1,67 +1,54 @@
-/*
-package FixedPointUnit.Multiplier
+
+package FixedPointUnit.Advanced
 
 import chisel3._
-import chisel3.util.ShiftRegister
+import chisel3.util.{Cat, Fill, ShiftRegister}
 
-class FixedMult(val bitwidth : Int, val pointLoc : Int) extends Module{
-  require((bitwidth & (bitwidth - 1)) == 0, s"Width $bitwidth is not a power of 2")
+class FixedMult(val bitwidth : Int, val latency : Int, val pointlocation : Int) extends Module{
+  require(bitwidth % (latency+1) == 0, "The bitwidth should be dividable by the latency + 1.")
   val io = IO(new Bundle{
     val in_multiplicant   =  Input(Vec(2, SInt(bitwidth.W)))
     val in_valid          =  Input(Bool())
-    val out_data          = Output(SInt(bitwidth.W))
+    val out_data          = Output(SInt((2*bitwidth).W))
+    val out_fixed_data    = Output(SInt(bitwidth.W))
     val out_valid         = Output(Bool())
   })
 
+  //calculating register locations
+  def evenSplits(n: Int, splits: Int): Seq[Int] = {
+    (1 to splits).map(i => (i * n) / (splits + 1))
+  }
+  val reglocation = evenSplits(bitwidth, latency)
+
   //Seperate one of the values of one multiplicant into several bits that multiply against the other
-  val inputs  = Wire(Vec(bitwidth, SInt(bitwidth.W)))
+  val inputs  = Wire(Vec(bitwidth, UInt(bitwidth.W)))
   for(i <- 0 until bitwidth){
-    inputs(i) := io.in_multiplicant(0) & io.in_multiplicant(1)(i).asSInt
+    val bitwise = Fill(bitwidth, io.in_multiplicant(1)(i)) //fill each bit with the same bit
+    inputs(i) := io.in_multiplicant(0).asUInt & bitwise
   }
 
-  //Connect layers of adders to each other
-  var regPerLayer = bitwidth >> 1 // divide by 2
-  var prev        = inputs
-  //the amount of times ran
-  var layer       = 0
+  val LSB           = Wire(Vec(bitwidth-1, Bool()))
+  var prev : UInt   = inputs(0)
+  for(i <- 1 until bitwidth){
+    //add each mutliplication result
+    val next              = Wire(UInt((bitwidth+1).W))//+1 for the carry bit
+    LSB(i-1) := prev(0)
+    next     := (0.U(1.W) ## inputs(i)) + (0.U(2.W) ## prev(bitwidth - 1, 1))
 
-  //final result
-  val product = WireInit(0.U((2*bitwidth).W)) // result
-
-  while(regPerLayer >= 1){
-    val next = RegInit(VecInit(Seq.fill(regPerLayer)(0.U(bitwidth.W))))
-
-    //One of the numbers is left shifted or multiplied by 2
-    for(regValue <- 0 until regPerLayer / 2){
-      val shift = WireInit(0.U(bitwidth.W))
-      shift := (prev(2*regValue + 1)(bitwidth - 2, 0) ## 0.U(1.W))
-      next(regValue) := prev(2*regValue).asUInt + shift.asUInt
-    }
-
-    //Connecting results to output
-    if(regPerLayer > 1) {
-      product(2*bitwidth - layer - 1) := prev((regPerLayer * 2) - 1)(bitwidth - 1).asBool
-      product(layer) := prev(0)(0)
-    }else if(regPerLayer == 1){
-      product(bitwidth - (bitwidth / 4) - 1, bitwidth / 4) := next(0)
-    }
-
-    regPerLayer = regPerLayer >> 1
-    layer = layer + 1
+    //add register latency in the middle to improve MOF
+    val insertReg = reglocation.contains(i)
+    val updated = if (insertReg) RegNext(next) else next
+    prev = updated
+    //prev = next
   }
 
-  //result
-  val productReg = RegInit(0.S(bitwidth.W))
-  productReg := product(bitwidth - 1 + pointLoc, pointLoc).asSInt
-  io.out_data := productReg
+  //output
+  val output = Reg(UInt((2*bitwidth).W)) //register output
+  output     := prev ## Cat(LSB.reverse)
 
-  //valid --- calculating logerithm
-  var logerithmValue = 0
-  var logvalue = bitwidth
-  while(logvalue > 0){
-    logerithmValue = logerithmValue +1
-    logvalue = logvalue >> 1
-  }
-  io.out_valid  := ShiftRegister(io.in_valid, logerithmValue)
+  io.out_data       := output.asSInt
+  io.out_fixed_data := output(bitwidth - 1 + pointlocation, pointlocation).asSInt
+
+  //valid
+  io.out_valid := ShiftRegister(io.in_valid, latency + 1)
 }
- */

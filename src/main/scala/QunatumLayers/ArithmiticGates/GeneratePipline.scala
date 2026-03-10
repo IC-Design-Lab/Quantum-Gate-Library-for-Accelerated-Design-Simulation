@@ -1,4 +1,4 @@
-package QunatumLayers.ArithmiticGates.Pipline
+package QuantumLayers.ArithmiticGates.Pipline
 
 import QuantumLayers.ArithmiticGates.Gates.{GateIO, SpanVector, SpecifiedGate}
 import QuantumLayers.ArithmiticGates.Permutation.Gate.CompatiblePerm

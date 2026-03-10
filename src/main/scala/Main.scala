@@ -1,9 +1,10 @@
 import FixedPointUnit.FixedAdder
+import FixedPointUnit.Advanced.FixedMult
 import QuantumLayers.ArithmiticGates.Gates.{H, SW, SX, X}
 import QuantumLayers.ArithmiticGates.Permutation.Gate.CompatiblePerm
 import QuantumLayers.ArithmiticGates.Permutation.{SwapPositionXandY, rearrangeTo1stPosition}
 import QuantumLayers.ArithmiticGates.Permutation.tie._
-import QunatumLayers.ArithmiticGates.Pipline.{Gate, GeneratePiplinedGates, Perm}
+import QuantumLayers.ArithmiticGates.Pipline.{Gate, GeneratePiplinedGates, Perm}
 import chisel3._
 import circt.stage.ChiselStage
 
@@ -25,20 +26,15 @@ object main extends App{
   println(">>> Verilog emission complete")
 }
 
-
 /*
 object main extends App {
   println(">>> Starting elaboration of CompatablePerm")
-
-  val verilog = (new chisel3.stage.ChiselStage).emitVerilog(
-    new CompatablePerm(2, 16, 2, 1),
-    Array("--target-dir", "generated")
-  )
-
+  emitVerilog(new FixedMult(16,3,14))
   println(">>> Elaboration finished")
 }
-
  */
+
+
 /*
 object main extends App {
   println(">>> Starting elaboration")

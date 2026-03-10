@@ -25,6 +25,6 @@ class Hadamard3 extends AnyFlatSpec with ChiselScalatestTester {
       }
       dut.io.in_valid.poke(1.B)
 
-      dut.clock.step(4)
+      dut.clock.step(25)
     }
 }

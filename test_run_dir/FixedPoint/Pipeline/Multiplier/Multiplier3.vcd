@@ -1,0 +1,318 @@
+$date
+2026-03-09T01:31+0000
+$end
+$version
+0.2
+$end
+$comment
+
+$end
+$timescale 1ns  $end
+$scope module Multiplier3 $end
+ $var wire 1 ! io_out_valid $end
+ $var wire 16 " output $end
+ $var wire 3 # output_lo $end
+ $var wire 1 $ reset $end
+ $var wire 2 % output_lo_hi $end
+ $var wire 2 & output_hi_hi $end
+ $var wire 8 ' bitwise_6 $end
+ $var wire 1 ( io_in_valid $end
+ $var wire 8 ) bitwise_7 $end
+ $var wire 8 * bitwise_4 $end
+ $var wire 8 + bitwise_5 $end
+ $var wire 8 , bitwise_2 $end
+ $var wire 8 - bitwise_3 $end
+ $var wire 8 . bitwise_1 $end
+ $var wire 8 / inputs_4 $end
+ $var wire 4 0 output_hi $end
+ $var wire 8 1 inputs_5 $end
+ $var wire 8 2 inputs_2 $end
+ $var wire 8 3 inputs_3 $end
+ $var wire 8 4 inputs_0 $end
+ $var wire 8 5 inputs_1 $end
+ $var wire 8 6 inputs_6 $end
+ $var wire 8 7 inputs_7 $end
+ $var wire 9 8 updated_1 $end
+ $var wire 9 9 updated_2 $end
+ $var wire 9 : next_4 $end
+ $var wire 9 ; next_5 $end
+ $var wire 9 < next_6 $end
+ $var wire 9 = next_1 $end
+ $var wire 9 > next_2 $end
+ $var wire 9 ? next_3 $end
+ $var wire 1 @ clock $end
+ $var wire 1 A io_out_valid_r $end
+ $var wire 16 B io_out_data $end
+ $var wire 9 C updated $end
+ $var wire 9 D next $end
+ $var wire 1 E LSB_5 $end
+ $var wire 2 F output_hi_lo $end
+ $var wire 1 G LSB_4 $end
+ $var wire 1 H LSB_6 $end
+ $var wire 1 I io_out_valid_r_1 $end
+ $var wire 8 J bitwise $end
+ $var wire 1 K LSB_1 $end
+ $var wire 1 L io_out_valid_r_2 $end
+ $var wire 1 M LSB_0 $end
+ $var wire 1 N io_out_valid_r_3 $end
+ $var wire 8 O io_out_fixed_data $end
+ $var wire 1 P LSB_3 $end
+ $var wire 1 Q LSB_2 $end
+ $var wire 8 R io_in_multiplicant_1 $end
+ $var wire 8 S io_in_multiplicant_0 $end
+$upscope $end
+$enddefinitions $end
+$dumpvars
+b0000000000000000 "
+0@
+0A
+b00 &
+0E
+0G
+0H
+0I
+0K
+0L
+b00 %
+0M
+0N
+0P
+0Q
+b00000000 J
+b000000000 9
+b000000000 8
+b000000000 =
+b000000000 <
+b000000000 ;
+b000000000 :
+b000000000 ?
+b000000000 >
+b000000000 D
+b000000000 C
+b0000 0
+b00000000 S
+b00000000 R
+b00000000 O
+b00000000 +
+b00000000 *
+b00000000 -
+b00000000 ,
+b00000000 '
+b00000000 )
+b00000000 7
+b00000000 6
+b00000000 3
+b00000000 2
+b00000000 5
+b00000000 4
+b00000000 /
+b00000000 .
+b00000000 1
+b000 #
+b0000000000000000 B
+0!
+b00 F
+0$
+0(
+$end
+#0
+1$
+#1
+1@
+#6
+0@
+b010111110 D
+1E
+b01 F
+b11111111 J
+1M
+1P
+b01111111 R
+b01111111 S
+b001 #
+0$
+b01 &
+b11111111 '
+1(
+b11111111 *
+b11111111 +
+b11111111 ,
+b11111111 -
+b11111111 .
+b01111111 /
+b0101 0
+b01111111 1
+b01111111 2
+b01111111 3
+b01111111 4
+b01111111 5
+b01111111 6
+b001111111 :
+b010111110 ;
+b011011110 =
+b001111111 >
+b010111110 ?
+#11
+1@
+1A
+b0000000000101001 "
+b0000000000101001 B
+b011011110 C
+0E
+b00 &
+b00 F
+b0000 0
+0P
+b010111110 8
+b010111110 9
+b011011110 :
+b011101110 ;
+b001011111 <
+b011101110 >
+b011110110 ?
+#16
+0@
+#21
+1@
+b0010111110000001 "
+b0010111110000001 B
+b011110110 8
+b011101110 9
+1I
+b011111010 :
+b011111100 ;
+b001110111 <
+b10111110 O
+#26
+0@
+#31
+1@
+b0011101110000001 "
+b0011101110000001 B
+b011111100 9
+b001111110 <
+1L
+b11101110 O
+#36
+0@
+#41
+1@
+1!
+b0011111100000001 "
+b0011111100000001 B
+1N
+b11111100 O
+#46
+0@
+#51
+1@
+#56
+0@
+#61
+1@
+#66
+0@
+#71
+1@
+#76
+0@
+#81
+1@
+#86
+0@
+#91
+1@
+#96
+0@
+#101
+1@
+#106
+0@
+#111
+1@
+#116
+0@
+#121
+1@
+#126
+0@
+#131
+1@
+#136
+0@
+#141
+1@
+#146
+0@
+#151
+1@
+#156
+0@
+#161
+1@
+#166
+0@
+#171
+1@
+#176
+0@
+#181
+1@
+#186
+0@
+#191
+1@
+#196
+0@
+#201
+1@
+#206
+0@
+#211
+1@
+#216
+0@
+#221
+1@
+#226
+0@
+#231
+1@
+#236
+0@
+#241
+1@
+#246
+0@
+#251
+1@
+#256
+0@
+#261
+1@
+#266
+0@
+#271
+1@
+#276
+0@
+#281
+1@
+#286
+0@
+#291
+1@
+#296
+0@
+#301
+1@
+#306
+0@
+#311
+1@
+#316
+0@
+#321
+1@
+#326
+0@

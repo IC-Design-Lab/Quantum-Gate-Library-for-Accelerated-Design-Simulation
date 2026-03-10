@@ -1,5 +1,5 @@
 $date
-2026-03-02T04:07+0000
+2026-03-09T02:57+0000
 $end
 $version
 0.2
@@ -9,310 +9,310 @@ $comment
 $end
 $timescale 1ns  $end
 $scope module SXGate2QubitVector16bit $end
- $var wire 1 # io_out_valid $end
- $var wire 16 * io_in_QSV_0_0 $end
- $var wire 16 , io_in_QSV_0_1 $end
- $var wire 16 . io_out_QSV_3_0 $end
- $var wire 16 0 io_out_QSV_3_1 $end
- $var wire 1 2 reset $end
- $var wire 1 9 io_in_valid $end
- $var wire 16 A io_in_QSV_3_0 $end
- $var wire 16 B io_in_QSV_3_1 $end
- $var wire 16 F io_out_QSV_0_0 $end
- $var wire 16 H io_out_QSV_0_1 $end
- $var wire 16 b io_in_QSV_2_1 $end
- $var wire 1 c clock $end
- $var wire 16 d io_in_QSV_2_0 $end
- $var wire 16 f io_out_QSV_1_1 $end
- $var wire 16 i io_out_QSV_1_0 $end
- $var wire 16 r io_in_QSV_1_0 $end
- $var wire 16 s io_in_QSV_1_1 $end
- $var wire 1 t gate_0 $end
- $var wire 16 u io_out_QSV_2_0 $end
- $var wire 1 v gate_1 $end
- $var wire 16 x io_out_QSV_2_1 $end
+ $var wire 16 ) io_out_QSV_3_0 $end
+ $var wire 16 * io_out_QSV_3_1 $end
+ $var wire 16 4 io_in_QSV_3_0 $end
+ $var wire 16 5 io_in_QSV_3_1 $end
+ $var wire 16 ; io_in_QSV_2_1 $end
+ $var wire 16 > io_in_QSV_2_0 $end
+ $var wire 16 @ io_out_QSV_1_1 $end
+ $var wire 16 A io_out_QSV_1_0 $end
+ $var wire 16 E io_in_QSV_1_0 $end
+ $var wire 16 F io_in_QSV_1_1 $end
+ $var wire 1 G gate_0 $end
+ $var wire 16 H io_out_QSV_2_0 $end
+ $var wire 1 J gate_1 $end
+ $var wire 16 K io_out_QSV_2_1 $end
+ $var wire 1 N io_out_valid $end
+ $var wire 16 Q io_in_QSV_0_0 $end
+ $var wire 16 R io_in_QSV_0_1 $end
+ $var wire 1 V reset $end
+ $var wire 1 Z io_in_valid $end
+ $var wire 16 _ io_out_QSV_0_0 $end
+ $var wire 16 a io_out_QSV_0_1 $end
+ $var wire 1 n clock $end
   $scope module gate_1.gate $end
   $upscope $end
   $scope module gate_0.gate $end
   $upscope $end
   $scope module gate_0 $end
-   $var wire 1 $ clock $end
-   $var wire 1 4 io_out_valid $end
-   $var wire 16 6 io_in_QSV_1_1 $end
-   $var wire 16 8 io_in_QSV_1_0 $end
-   $var wire 1 L gate $end
-   $var wire 16 N io_in_QSV_0_1 $end
-   $var wire 16 O io_in_QSV_0_0 $end
-   $var wire 1 P reset $end
-   $var wire 16 W io_out_QSV_1_1 $end
-   $var wire 16 e io_out_QSV_0_0 $end
-   $var wire 16 g io_out_QSV_0_1 $end
-   $var wire 1 m io_in_valid $end
-   $var wire 16 w io_out_QSV_1_0 $end
+   $var wire 1 " clock $end
+   $var wire 1 - io_out_valid $end
+   $var wire 1 C io_in_valid $end
+   $var wire 16 X io_in_QSV_1_1 $end
+   $var wire 16 Y io_in_QSV_1_0 $end
+   $var wire 1 d gate $end
+   $var wire 16 f io_in_QSV_0_1 $end
+   $var wire 16 g io_in_QSV_0_0 $end
+   $var wire 16 l io_out_QSV_1_1 $end
+   $var wire 16 o io_out_QSV_0_0 $end
+   $var wire 16 p io_out_QSV_0_1 $end
+   $var wire 16 y io_out_QSV_1_0 $end
     $scope module gate $end
-     $var wire 1 ! reset $end
-     $var wire 1 % delayed $end
-     $var wire 1 ' io_out_valid $end
-     $var wire 16 - io_in_QSV_1_1 $end
-     $var wire 16 / io_in_QSV_1_0 $end
-     $var wire 16 = regout_1_0 $end
-     $var wire 16 > regout_1_1 $end
-     $var wire 1 ? io_in_valid $end
-     $var wire 16 E io_in_QSV_0_0 $end
-     $var wire 16 G io_in_QSV_0_1 $end
-     $var wire 1 T clock $end
-     $var wire 16 U io_out_QSV_1_1 $end
-     $var wire 16 V io_out_QSV_1_0 $end
-     $var wire 16 Y regout_0_0 $end
-     $var wire 16 Z regout_0_1 $end
-     $var wire 16 [ c $end
-     $var wire 16 ] d $end
-     $var wire 16 _ a $end
-     $var wire 16 a b $end
-     $var wire 16 o io_out_QSV_0_1 $end
-     $var wire 16 p io_out_QSV_0_0 $end
+     $var wire 1 # delayed $end
+     $var wire 1 $ io_out_valid $end
+     $var wire 16 + AaddB $end
+     $var wire 1 1 io_in_valid $end
+     $var wire 16 2 AsubB $end
+     $var wire 16 9 DsubC $end
+     $var wire 1 : clock $end
+     $var wire 16 M Imag1 $end
+     $var wire 16 O Imag0 $end
+     $var wire 16 P CsubD $end
+     $var wire 16 S io_in_QSV_1_1 $end
+     $var wire 16 T io_in_QSV_1_0 $end
+     $var wire 16 ] CaddD $end
+     $var wire 16 ^ io_in_QSV_0_0 $end
+     $var wire 16 ` io_in_QSV_0_1 $end
+     $var wire 16 j io_out_QSV_1_1 $end
+     $var wire 16 k io_out_QSV_1_0 $end
+     $var wire 1 m delayed_r $end
+     $var wire 16 t io_out_QSV_0_1 $end
+     $var wire 16 u io_out_QSV_0_0 $end
+     $var wire 16 v Real1 $end
+     $var wire 16 x Real0 $end
+     $var wire 16 z BsubA $end
     $upscope $end
   $upscope $end
   $scope module gate_1 $end
-   $var wire 1 & reset $end
-   $var wire 16 ( io_in_QSV_0_0 $end
-   $var wire 16 ) io_in_QSV_0_1 $end
-   $var wire 1 + gate $end
-   $var wire 16 1 io_out_QSV_0_0 $end
-   $var wire 16 3 io_out_QSV_0_1 $end
-   $var wire 1 5 io_out_valid $end
-   $var wire 16 @ io_in_QSV_1_1 $end
-   $var wire 16 C io_in_QSV_1_0 $end
-   $var wire 16 J io_out_QSV_1_0 $end
-   $var wire 16 K io_out_QSV_1_1 $end
-   $var wire 1 Q io_in_valid $end
-   $var wire 1 l clock $end
+   $var wire 16 & io_in_QSV_0_0 $end
+   $var wire 16 ' io_in_QSV_0_1 $end
+   $var wire 1 ( gate $end
+   $var wire 1 . io_out_valid $end
+   $var wire 16 3 io_in_QSV_1_1 $end
+   $var wire 16 6 io_in_QSV_1_0 $end
+   $var wire 1 B clock $end
+   $var wire 16 U io_out_QSV_0_0 $end
+   $var wire 16 W io_out_QSV_0_1 $end
+   $var wire 16 b io_out_QSV_1_0 $end
+   $var wire 16 c io_out_QSV_1_1 $end
+   $var wire 1 h io_in_valid $end
     $scope module gate $end
-     $var wire 1 " io_out_valid $end
-     $var wire 1 7 clock $end
-     $var wire 1 : io_in_valid $end
-     $var wire 16 ; regout_0_0 $end
-     $var wire 16 < regout_0_1 $end
-     $var wire 16 D io_in_QSV_0_0 $end
-     $var wire 16 I io_in_QSV_0_1 $end
-     $var wire 16 M a $end
-     $var wire 16 R io_out_QSV_1_1 $end
-     $var wire 16 S regout_1_0 $end
-     $var wire 16 X regout_1_1 $end
-     $var wire 16 \ d $end
-     $var wire 16 ^ c $end
-     $var wire 16 ` b $end
-     $var wire 16 h io_in_QSV_1_1 $end
-     $var wire 16 j io_in_QSV_1_0 $end
-     $var wire 1 k reset $end
-     $var wire 16 n io_out_QSV_1_0 $end
-     $var wire 1 q delayed $end
-     $var wire 16 y io_out_QSV_0_0 $end
-     $var wire 16 z io_out_QSV_0_1 $end
+     $var wire 1 ! io_out_valid $end
+     $var wire 1 % delayed_r $end
+     $var wire 16 , DsubC $end
+     $var wire 1 / clock $end
+     $var wire 16 0 AsubB $end
+     $var wire 16 7 io_in_QSV_0_0 $end
+     $var wire 16 8 io_in_QSV_0_1 $end
+     $var wire 16 < Imag1 $end
+     $var wire 16 = Imag0 $end
+     $var wire 16 ? AaddB $end
+     $var wire 16 D BsubA $end
+     $var wire 16 I Real0 $end
+     $var wire 16 L Real1 $end
+     $var wire 16 [ CsubD $end
+     $var wire 1 \ io_in_valid $end
+     $var wire 16 e CaddD $end
+     $var wire 16 i io_out_QSV_1_1 $end
+     $var wire 16 q io_in_QSV_1_1 $end
+     $var wire 16 r io_in_QSV_1_0 $end
+     $var wire 16 s io_out_QSV_1_0 $end
+     $var wire 1 w delayed $end
+     $var wire 16 { io_out_QSV_0_0 $end
+     $var wire 16 | io_out_QSV_0_1 $end
     $upscope $end
   $upscope $end
 $upscope $end
 $enddefinitions $end
 $dumpvars
-02
-04
-05
-07
+01
 b0000000000000000 )
-b0000000000000000 (
-09
+b0000000000000000 '
 0:
-b0000000000000000 -
+b0000000000000000 &
 b0000000000000000 ,
+b0000000000000000 +
 b0000000000000000 *
-0?
-b0000000000000000 1
 b0000000000000000 0
-b0000000000000000 /
-b0000000000000000 .
+0B
+0C
+b0000000000000000 5
+b0000000000000000 4
 b0000000000000000 3
+b0000000000000000 2
+0G
+b0000000000000000 9
 b0000000000000000 8
+b0000000000000000 7
+0J
 b0000000000000000 6
 b0000000000000000 =
-0L
 b0000000000000000 <
 b0000000000000000 ;
-0P
-0Q
-0T
-0c
-0k
-0l
+0N
+0V
+0Z
+0\
+0d
+0h
 0m
+0n
 b0000000000000000 a
 b0000000000000000 `
-0q
 b0000000000000000 _
 b0000000000000000 ^
 b0000000000000000 e
-0t
-b0000000000000000 d
-0v
+b0000000000000000 c
 b0000000000000000 b
+0w
 b0000000000000000 i
-b0000000000000000 h
 b0000000000000000 g
 b0000000000000000 f
+b0000000000000000 l
+b0000000000000000 k
 b0000000000000000 j
+b0000000000000000 q
 b0000000000000000 p
 b0000000000000000 o
-b0000000000000000 n
 b0000000000000000 u
+b0000000000000000 t
 b0000000000000000 s
 b0000000000000000 r
 b0000000000000000 y
 b0000000000000000 x
-b0000000000000000 w
+b0000000000000000 v
+b0000000000000000 |
+b0000000000000000 {
 b0000000000000000 z
 b0000000000000000 A
 b0000000000000000 @
+b0000000000000000 ?
 b0000000000000000 >
 b0000000000000000 E
 b0000000000000000 D
-b0000000000000000 C
-b0000000000000000 B
 b0000000000000000 I
 b0000000000000000 H
-b0000000000000000 G
 b0000000000000000 F
 b0000000000000000 M
+b0000000000000000 L
 b0000000000000000 K
-b0000000000000000 J
+b0000000000000000 Q
+b0000000000000000 P
 0!
 b0000000000000000 O
 0"
-b0000000000000000 N
 0#
 b0000000000000000 U
 0$
+b0000000000000000 T
 0%
 b0000000000000000 S
-0&
 b0000000000000000 R
-0'
 b0000000000000000 Y
+0(
 b0000000000000000 X
 b0000000000000000 W
-b0000000000000000 V
-0+
 b0000000000000000 ]
-b0000000000000000 \
+0-
 b0000000000000000 [
-b0000000000000000 Z
+0.
+0/
 $end
 #0
-1P
-1!
-12
-1&
-1k
+1V
 #1
-1c
-1$
-1T
-17
-1l
-#6
-0P
-0!
-02
-0c
-0$
-0T
-0&
-07
-0k
-0l
-#11
-1c
-1$
-1T
-17
-1l
-#16
-0c
-0$
-b0100000000000000 E
-b0100000000000000 *
-0l
-1m
-b0100000000000000 O
-1Q
-0T
-07
-19
+1"
+1B
 1:
-1?
-b0010000000000000 _
+1n
+1/
+#6
+0"
+0B
+0V
+0:
+0n
+0/
+#11
+1"
+1B
+1:
+1n
+1/
+#16
+0"
+0B
+1C
+b0100000000000000 g
+1h
+0n
+0/
+11
+b0100000000000000 Q
+0:
+1Z
+1\
+b0100000000000000 ^
 #21
-b0010000000000000 F
-b0010000000000000 H
-1T
-b1110000000000000 U
-b0010000000000000 V
-b1110000000000000 W
-b0010000000000000 Y
-b0010000000000000 Z
+1"
+b0100000000000000 2
+1B
+1%
+1:
+b1100000000000000 z
+b0100000000000000 +
+1m
+1n
+1/
+#26
+0"
+0B
+0:
+0n
+0/
+#31
+b1110000000000000 @
+b0010000000000000 A
+1B
+b1100000000000000 M
+1N
+b0100000000000000 O
+b0010000000000000 _
+1!
+b0010000000000000 a
 1"
 1#
-1c
 1$
-1%
-b0010000000000000 e
-b1110000000000000 f
-1'
-b0010000000000000 g
-b0010000000000000 i
-1l
+b1110000000000000 j
+b0010000000000000 k
+b1110000000000000 l
+1-
+1.
+1n
+1/
 b0010000000000000 o
 b0010000000000000 p
-1q
-14
-15
-17
-b0010000000000000 w
-b0010000000000000 =
-b1110000000000000 >
-#26
-0c
-0$
-0T
-07
-0l
-#31
-1c
-1$
-1T
-17
-1l
+b0010000000000000 t
+b0010000000000000 u
+b0100000000000000 v
+1w
+b0100000000000000 x
+b0010000000000000 y
+1:
 #36
-0c
-0$
-0T
-07
-0l
+0"
+0B
+0:
+0n
+0/
 #41
-1c
-1$
-1T
-17
-1l
+1"
+1B
+1:
+1n
+1/
 #46
-0c
-0$
-0T
-07
-0l
+0"
+0B
+0:
+0n
+0/
 #51
-1c
-1$
-1T
-17
-1l
+1"
+1B
+1:
+1n
+1/
 #56
-0c
+0n

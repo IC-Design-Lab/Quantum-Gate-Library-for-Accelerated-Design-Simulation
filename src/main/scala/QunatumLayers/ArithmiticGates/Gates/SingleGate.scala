@@ -1,5 +1,6 @@
 package QuantumLayers.ArithmiticGates.Gates
 
+import FixedPointUnit.Advanced.FixedMult
 import FixedPointUnit.ComplexFixedPoint._
 import chisel3._
 import chisel3.util._
@@ -9,9 +10,10 @@ import chisel3.util._
  */
 class HadamardGate(val bitwidth : Int) extends Module with GIO{
   val pointLoc = bitwidth - 2
+  val multiplierLatency = (bitwidth / 4) - 1
   val io = IO{new GateIO(1, bitwidth)}
 
-  val multiplier  = Seq.fill(2)(Module(new FixedComplexMultiplier(bitwidth, pointLoc)))
+  val multiplier  = Seq.fill(4)(Module(new FixedMult(bitwidth, multiplierLatency, pointLoc)))
   val adder       = Module(new FixedComplexAdder(bitwidth))
   val subber      = Module(new FixedComplexSubber(bitwidth))
 
@@ -25,25 +27,40 @@ class HadamardGate(val bitwidth : Int) extends Module with GIO{
   val zero            = 0.S(63, 64 - bitwidth).asSInt
 
   //multiply a and b with sqrt(1/2)
-  multiplier(0).io.in_a := io.in_QSV(0)
-  multiplier(0).io.in_b := VecInit(sqrtOneHalf, zero)
-  multiplier(1).io.in_a := io.in_QSV(1)
-  multiplier(1).io.in_b := VecInit(sqrtOneHalf, zero)
+  multiplier(0).io.in_multiplicant(0) := io.in_QSV(0)(0)
+  multiplier(0).io.in_multiplicant(1) := sqrtOneHalf
+  multiplier(1).io.in_multiplicant(0) := io.in_QSV(0)(1)
+  multiplier(1).io.in_multiplicant(1) := sqrtOneHalf
+  multiplier(2).io.in_multiplicant(0) := io.in_QSV(1)(0)
+  multiplier(2).io.in_multiplicant(1) := sqrtOneHalf
+  multiplier(3).io.in_multiplicant(0) := io.in_QSV(1)(1)
+  multiplier(3).io.in_multiplicant(1) := sqrtOneHalf
 
   // a + b = Aout
-  adder.io.in_a := multiplier(0).io.out
-  adder.io.in_b := multiplier(1).io.out
+  adder.io.in_a(0) := multiplier(0).io.out_fixed_data
+  adder.io.in_a(1) := multiplier(1).io.out_fixed_data
+  adder.io.in_b(0) := multiplier(2).io.out_fixed_data
+  adder.io.in_b(1) := multiplier(3).io.out_fixed_data
   io.out_QSV(0) := adder.io.out
 
   // a - b = Bout
-  subber.io.in_a := multiplier(0).io.out
-  subber.io.in_b := multiplier(1).io.out
-  io.out_QSV(1) := adder.io.out
+  subber.io.in_a(0) := multiplier(0).io.out_fixed_data
+  subber.io.in_a(1) := multiplier(1).io.out_fixed_data
+  subber.io.in_b(0) := multiplier(2).io.out_fixed_data
+  subber.io.in_b(1) := multiplier(3).io.out_fixed_data
+  io.out_QSV(1) := subber.io.out
 
   //valid travel
-  //multiplier = 2 reg | add/sub = 1 reg | tot = 3
-  val delayed = ShiftRegister(io.in_valid, 3)
-  io.out_valid := delayed
+  //multiplier = x reg | add/sub = 1 reg | tot = x + 1
+  for(i <- 0 until 4) {
+    multiplier(i).io.in_valid := io.in_valid
+  }
+  val delay = ShiftRegister(
+    multiplier(0).io.out_valid &
+    multiplier(1).io.out_valid &
+    multiplier(2).io.out_valid &
+    multiplier(3).io.out_valid, 1)
+  io.out_valid := delay
 }
 
 /*
@@ -84,29 +101,41 @@ class SqrtXGate(val bitwidth : Int) extends Module with GIO{
 1/2 | 1+i 1-i | | a+ib |  = 1/2 | ( a-b+c+d )+i( a+b-c+d ) |
     | 1-i 1+i | | c+id |        | ( a+b+c-d )+i(-a+b+c+d ) |
    */
-  val regout = RegInit(io.out_QSV)
-  val a = Wire(SInt(bitwidth.W))
-  val b = Wire(SInt(bitwidth.W))
-  val c = Wire(SInt(bitwidth.W))
-  val d = Wire(SInt(bitwidth.W))
 
-  //multiply by 1/2
-  a := io.in_QSV(0)(0) >> 1
-  b := io.in_QSV(0)(1) >> 1
-  c := io.in_QSV(1)(0) >> 1
-  d := io.in_QSV(1)(1) >> 1
+  //first layer of adder and subber
+  //add
+  val AaddB = Reg(SInt(bitwidth.W))
+  val CaddD = Reg(SInt(bitwidth.W))
+  AaddB := io.in_QSV(0)(0) + io.in_QSV(0)(1)
+  CaddD := io.in_QSV(1)(0) + io.in_QSV(1)(1)
+  //subtract
+  val AsubB = Reg(SInt(bitwidth.W))
+  val CsubD = Reg(SInt(bitwidth.W))
+  val BsubA = Reg(SInt(bitwidth.W))
+  val DsubC = Reg(SInt(bitwidth.W))
+  AsubB := io.in_QSV(0)(0) - io.in_QSV(0)(1)
+  CsubD := io.in_QSV(1)(0) - io.in_QSV(1)(1)
+  BsubA := io.in_QSV(0)(1) - io.in_QSV(0)(0)
+  DsubC := io.in_QSV(1)(1) - io.in_QSV(1)(0)
 
-  //add together all values to register
-  regout(0)(0) := a-b+c+d
-  regout(0)(1) := a+b-c+d
-  regout(1)(0) := a+b+c-d
-  regout(1)(1) := b+c+d-a
+  //second layer of Adders
+  val Real0 = Reg(SInt(bitwidth.W))
+  val Imag0 = Reg(SInt(bitwidth.W))
+  val Real1 = Reg(SInt(bitwidth.W))
+  val Imag1 = Reg(SInt(bitwidth.W))
+  Real0 := AsubB + CaddD
+  Imag0 := AaddB + DsubC
+  Real1 := AaddB + CsubD
+  Imag1 := BsubA + CaddD
 
-  //output
-  io.out_QSV := regout
+  //outsignal
+  io.out_QSV(0)(0) := Real0 >> 1
+  io.out_QSV(0)(1) := Imag0 >> 1
+  io.out_QSV(1)(0) := Real1 >> 1
+  io.out_QSV(1)(1) := Imag1 >> 1
 
   //valid signal
-  val delayed = ShiftRegister(io.in_valid, 1)
+  val delayed = ShiftRegister(io.in_valid, 2)
   io.out_valid := delayed
 }
 
@@ -116,27 +145,38 @@ class SqrtXDaggerGate(val bitwidth : Int) extends Module with GIO{
 1/2 | 1-i 1+i | | a+ib |  = 1/2 | ( a+b+c-d )+i(-a+b+c+d ) |
     | 1+i 1-i | | c+id |        | ( a-b+c-d )+i( a+b-c+d ) |
    */
-  val regout = RegInit(io.out_QSV)
-  val a = WireInit(SInt(bitwidth.W))
-  val b = WireInit(SInt(bitwidth.W))
-  val c = WireInit(SInt(bitwidth.W))
-  val d = WireInit(SInt(bitwidth.W))
 
-  //multiply by 1/2
-  a := io.in_QSV(0)(0) >> 1
-  b := io.in_QSV(0)(1) >> 1
-  c := io.in_QSV(1)(0) >> 1
-  d := io.in_QSV(1)(1) >> 1
+  //first layer of adder and subber
+  //add
+  val AaddB = Reg(SInt(bitwidth.W))
+  val CaddD = Reg(SInt(bitwidth.W))
+  AaddB := io.in_QSV(0)(0) + io.in_QSV(0)(1)
+  CaddD := io.in_QSV(1)(0) + io.in_QSV(1)(1)
+  //subtract
+  val AsubB = Reg(SInt(bitwidth.W))
+  val CsubD = Reg(SInt(bitwidth.W))
+  val BsubA = Reg(SInt(bitwidth.W))
+  val DsubC = Reg(SInt(bitwidth.W))
+  AsubB := io.in_QSV(0)(0) - io.in_QSV(0)(1)
+  CsubD := io.in_QSV(1)(0) - io.in_QSV(1)(1)
+  BsubA := io.in_QSV(0)(1) - io.in_QSV(0)(0)
+  DsubC := io.in_QSV(1)(1) - io.in_QSV(1)(0)
 
-  //add together all values to register
-  regout(1)(0) := a-b+c+d
-  regout(1)(1) := a+b-c+d
-  regout(0)(0) := a+b+c-d
-  regout(0)(1) := b+c+d-a
+  //second layer of Adders
+  val Real0 = Reg(SInt(bitwidth.W))
+  val Imag0 = Reg(SInt(bitwidth.W))
+  val Real1 = Reg(SInt(bitwidth.W))
+  val Imag1 = Reg(SInt(bitwidth.W))
+  Real0 := AaddB + CsubD
+  Imag0 := BsubA + CaddD
+  Real1 := AsubB + CaddD
+  Imag1 := AaddB + DsubC
 
-  //output
-  io.out_QSV := regout
-
+  //outsignal
+  io.out_QSV(0)(0) := Real0 >> 1
+  io.out_QSV(0)(1) := Imag0 >> 1
+  io.out_QSV(1)(0) := Real1 >> 1
+  io.out_QSV(1)(1) := Imag1 >> 1
   //valid signal
   val delayed = ShiftRegister(io.in_valid, 1)
   io.out_valid := delayed

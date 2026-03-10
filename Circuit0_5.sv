@@ -50,43 +50,79 @@
   `endif // not def ENABLE_INITIAL_MEM_
 `endif // not def SYNTHESIS
 
-module Fixed16BitAdder(	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
-  input         clock,	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
-                reset,	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
-  input  [15:0] io_in_0,	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:24:14
-                io_in_1,	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:24:14
-  output [15:0] io_out	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:24:14
+module FixedMult(	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7
+  input         clock,	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7
+  input  [15:0] io_in_multiplicant_0,	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:9:14
+  input         io_in_valid,	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:9:14
+  output [15:0] io_out_fixed_data,	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:9:14
+  output        io_out_valid	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:9:14
 );
 
-  reg [15:0] reg_0;	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:29:22
-  always @(posedge clock) begin	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
-    if (reset)	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
-      reg_0 <= 16'h0;	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:29:22
-    else	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
-      reg_0 <= io_in_0 - io_in_1;	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:29:22, :30:25
+  reg [16:0] updated;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:40:41
+  reg [16:0] updated_1;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:40:41
+  reg [16:0] updated_2;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:40:41
+  reg [31:0] output_0;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:46:19
+  reg        io_out_valid_r;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:53:32
+  reg        io_out_valid_r_1;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:53:32
+  reg        io_out_valid_r_2;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:53:32
+  reg        io_out_valid_r_3;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:53:32
+  always @(posedge clock) begin	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7
+    automatic logic [15:0] _next_T_28;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:36:41
+    automatic logic [15:0] _next_T_48;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:36:41
+    automatic logic [15:0] _next_T_53;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:36:41
+    _next_T_28 = io_in_multiplicant_0 + {2'h0, updated[15:2]};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7, :36:{41,60}, :40:41
+    _next_T_48 = io_in_multiplicant_0 + {2'h0, updated_1[15:2]};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7, :36:{41,60}, :40:41
+    _next_T_53 = io_in_multiplicant_0 + {1'h0, _next_T_48[15:1]};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:36:{27,41,60}
+    updated <= {5'h0, io_in_multiplicant_0[15:4]};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:36:{53,60}, :40:41
+    updated_1 <= {1'h0, io_in_multiplicant_0} + {3'h0, _next_T_28[15:2]};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:36:{27,41,60}, :40:41
+    updated_2 <= {2'h0, _next_T_53[15:1]};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7, :36:{41,53,60}, :40:41
+    output_0 <=
+      {3'h0,
+       io_in_multiplicant_0 + {1'h0, updated_2[15:1]},
+       updated_2[0],
+       _next_T_53[0],
+       _next_T_48[0],
+       updated_1[1:0],
+       _next_T_28[1:0],
+       updated[1:0],
+       io_in_multiplicant_0[3:0]};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:35:21, :36:{27,41,60}, :40:41, :46:19, :47:{22,28}
+    io_out_valid_r <= io_in_valid;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:53:32
+    io_out_valid_r_1 <= io_out_valid_r;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:53:32
+    io_out_valid_r_2 <= io_out_valid_r_1;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:53:32
+    io_out_valid_r_3 <= io_out_valid_r_2;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:53:32
   end // always @(posedge)
-  `ifdef ENABLE_INITIAL_REG_	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
-    `ifdef FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
-      `FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
+  `ifdef ENABLE_INITIAL_REG_	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7
+    `ifdef FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7
+      `FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7
     `endif // FIRRTL_BEFORE_INITIAL
-    initial begin	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
-      automatic logic [31:0] _RANDOM[0:0];	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
-      `ifdef INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
-        `INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
+    initial begin	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7
+      automatic logic [31:0] _RANDOM[0:2];	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7
+      `ifdef INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7
+        `INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7
       `endif // INIT_RANDOM_PROLOG_
-      `ifdef RANDOMIZE_REG_INIT	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
-        _RANDOM[/*Zero width*/ 1'b0] = `RANDOM;	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
-        reg_0 = _RANDOM[/*Zero width*/ 1'b0][15:0];	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7, :29:22
+      `ifdef RANDOMIZE_REG_INIT	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7
+        for (logic [1:0] i = 2'h0; i < 2'h3; i += 2'h1) begin
+          _RANDOM[i] = `RANDOM;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7
+        end	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7
+        updated = _RANDOM[2'h0][16:0];	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7, :40:41
+        updated_1 = {_RANDOM[2'h0][31:17], _RANDOM[2'h1][1:0]};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7, :40:41
+        updated_2 = _RANDOM[2'h1][18:2];	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7, :40:41
+        output_0 = {_RANDOM[2'h1][31:19], _RANDOM[2'h2][18:0]};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7, :40:41, :46:19
+        io_out_valid_r = _RANDOM[2'h2][19];	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7, :46:19, :53:32
+        io_out_valid_r_1 = _RANDOM[2'h2][20];	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7, :46:19, :53:32
+        io_out_valid_r_2 = _RANDOM[2'h2][21];	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7, :46:19, :53:32
+        io_out_valid_r_3 = _RANDOM[2'h2][22];	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7, :46:19, :53:32
       `endif // RANDOMIZE_REG_INIT
     end // initial
-    `ifdef FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
-      `FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
+    `ifdef FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7
+      `FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7
     `endif // FIRRTL_AFTER_INITIAL
   `endif // ENABLE_INITIAL_REG_
-  assign io_out = reg_0;	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7, :29:22
+  assign io_out_fixed_data = output_0[29:14];	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7, :46:19, :50:30
+  assign io_out_valid = io_out_valid_r_3;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:7:7, :53:32
 endmodule
 
-module Fixed16BitAdder_1(	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:7:7
+module Fixed16BitAdder(	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:7:7
   input         clock,	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:7:7
                 reset,	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:7:7
   input  [15:0] io_in_0,	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:9:14
@@ -122,102 +158,6 @@ module Fixed16BitAdder_1(	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.
   assign io_out = reg_0;	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:7:7, :14:22
 endmodule
 
-module Fixed16BitMultiplier(	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:37:7
-  input         clock,	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:37:7
-                reset,	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:37:7
-  input  [15:0] io_in_0,	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:39:14
-                io_in_1,	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:39:14
-  output [15:0] io_out	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:39:14
-);
-
-  reg [15:0] outreg;	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:51:23
-  always @(posedge clock) begin	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:37:7
-    if (reset)	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:37:7
-      outreg <= 16'h0;	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:51:23
-    else begin	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:37:7
-      automatic logic [29:0] _wireout_T =
-        {{14{io_in_0[15]}}, io_in_0} * {{14{io_in_1[15]}}, io_in_1};	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:47:24, :48:24, :49:20
-      outreg <= _wireout_T[29:14];	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:49:20, :51:23, :52:20
-    end
-  end // always @(posedge)
-  `ifdef ENABLE_INITIAL_REG_	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:37:7
-    `ifdef FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:37:7
-      `FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:37:7
-    `endif // FIRRTL_BEFORE_INITIAL
-    initial begin	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:37:7
-      automatic logic [31:0] _RANDOM[0:0];	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:37:7
-      `ifdef INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:37:7
-        `INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:37:7
-      `endif // INIT_RANDOM_PROLOG_
-      `ifdef RANDOMIZE_REG_INIT	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:37:7
-        _RANDOM[/*Zero width*/ 1'b0] = `RANDOM;	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:37:7
-        outreg = _RANDOM[/*Zero width*/ 1'b0][15:0];	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:37:7, :51:23
-      `endif // RANDOMIZE_REG_INIT
-    end // initial
-    `ifdef FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:37:7
-      `FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:37:7
-    `endif // FIRRTL_AFTER_INITIAL
-  `endif // ENABLE_INITIAL_REG_
-  assign io_out = outreg;	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:37:7, :51:23
-endmodule
-
-module FixedComplexMultiplier(	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:46:7
-  input         clock,	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:46:7
-                reset,	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:46:7
-  input  [15:0] io_in_a_0,	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:47:14
-                io_in_a_1,	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:47:14
-  output [15:0] io_out_0,	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:47:14
-                io_out_1	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:47:14
-);
-
-  wire [15:0] _Multiplier_3_io_out;	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:54:39
-  wire [15:0] _Multiplier_2_io_out;	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:54:39
-  wire [15:0] _Multiplier_1_io_out;	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:54:39
-  wire [15:0] _Multiplier_0_io_out;	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:54:39
-  Fixed16BitAdder Subber (	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:52:27
-    .clock   (clock),
-    .reset   (reset),
-    .io_in_0 (_Multiplier_0_io_out),	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:54:39
-    .io_in_1 (_Multiplier_1_io_out),	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:54:39
-    .io_out  (io_out_0)
-  );
-  Fixed16BitAdder_1 Adder (	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:53:27
-    .clock   (clock),
-    .reset   (reset),
-    .io_in_0 (_Multiplier_2_io_out),	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:54:39
-    .io_in_1 (_Multiplier_3_io_out),	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:54:39
-    .io_out  (io_out_1)
-  );
-  Fixed16BitMultiplier Multiplier_0 (	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:54:39
-    .clock   (clock),
-    .reset   (reset),
-    .io_in_0 (io_in_a_0),
-    .io_in_1 (16'h2D41),	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:47:14, :54:39
-    .io_out  (_Multiplier_0_io_out)
-  );
-  Fixed16BitMultiplier Multiplier_1 (	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:54:39
-    .clock   (clock),
-    .reset   (reset),
-    .io_in_0 (io_in_a_1),
-    .io_in_1 (16'h0),	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:47:14, :54:39
-    .io_out  (_Multiplier_1_io_out)
-  );
-  Fixed16BitMultiplier Multiplier_2 (	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:54:39
-    .clock   (clock),
-    .reset   (reset),
-    .io_in_0 (io_in_a_0),
-    .io_in_1 (16'h0),	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:47:14, :54:39
-    .io_out  (_Multiplier_2_io_out)
-  );
-  Fixed16BitMultiplier Multiplier_3 (	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:54:39
-    .clock   (clock),
-    .reset   (reset),
-    .io_in_0 (io_in_a_1),
-    .io_in_1 (16'h2D41),	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:47:14, :54:39
-    .io_out  (_Multiplier_3_io_out)
-  );
-endmodule
-
 module FixedComplexAdder(	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:7:7
   input         clock,	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:7:7
                 reset,	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:7:7
@@ -229,14 +169,14 @@ module FixedComplexAdder(	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoi
                 io_out_1	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:8:14
 );
 
-  Fixed16BitAdder_1 Adder_0 (	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:13:33
+  Fixed16BitAdder Adder_0 (	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:13:33
     .clock   (clock),
     .reset   (reset),
     .io_in_0 (io_in_a_0),
     .io_in_1 (io_in_b_0),
     .io_out  (io_out_0)
   );
-  Fixed16BitAdder_1 Adder_1 (	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:13:33
+  Fixed16BitAdder Adder_1 (	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:13:33
     .clock   (clock),
     .reset   (reset),
     .io_in_0 (io_in_a_1),
@@ -245,86 +185,164 @@ module FixedComplexAdder(	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoi
   );
 endmodule
 
-module HadamardGate(	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:10:7
-  input         clock,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:10:7
-                reset,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:10:7
-  input  [15:0] io_in_QSV_0_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:12:14
-                io_in_QSV_0_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:12:14
-                io_in_QSV_1_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:12:14
-                io_in_QSV_1_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:12:14
-  input         io_in_valid,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:12:14
-  output [15:0] io_out_QSV_0_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:12:14
-                io_out_QSV_0_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:12:14
-                io_out_QSV_1_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:12:14
-                io_out_QSV_1_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:12:14
-  output        io_out_valid	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:12:14
+module Fixed16BitAdder_2(	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
+  input         clock,	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
+                reset,	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
+  input  [15:0] io_in_0,	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:24:14
+                io_in_1,	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:24:14
+  output [15:0] io_out	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:24:14
 );
 
-  wire [15:0] _adder_io_out_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:15:27
-  wire [15:0] _adder_io_out_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:15:27
-  wire [15:0] _multiplier_1_io_out_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:14:39
-  wire [15:0] _multiplier_1_io_out_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:14:39
-  wire [15:0] _multiplier_0_io_out_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:14:39
-  wire [15:0] _multiplier_0_io_out_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:14:39
-  reg         delayed_r;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:45:30
-  reg         delayed_r_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:45:30
-  reg         delayed;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:45:30
-  always @(posedge clock) begin	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:10:7
-    delayed_r <= io_in_valid;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:45:30
-    delayed_r_1 <= delayed_r;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:45:30
-    delayed <= delayed_r_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:45:30
+  reg [15:0] reg_0;	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:29:22
+  always @(posedge clock) begin	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
+    if (reset)	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
+      reg_0 <= 16'h0;	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:29:22
+    else	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
+      reg_0 <= io_in_0 - io_in_1;	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:29:22, :30:25
   end // always @(posedge)
-  `ifdef ENABLE_INITIAL_REG_	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:10:7
-    `ifdef FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:10:7
-      `FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:10:7
+  `ifdef ENABLE_INITIAL_REG_	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
+    `ifdef FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
+      `FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
     `endif // FIRRTL_BEFORE_INITIAL
-    initial begin	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:10:7
-      automatic logic [31:0] _RANDOM[0:0];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:10:7
-      `ifdef INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:10:7
-        `INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:10:7
+    initial begin	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
+      automatic logic [31:0] _RANDOM[0:0];	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
+      `ifdef INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
+        `INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
       `endif // INIT_RANDOM_PROLOG_
-      `ifdef RANDOMIZE_REG_INIT	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:10:7
-        _RANDOM[/*Zero width*/ 1'b0] = `RANDOM;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:10:7
-        delayed_r = _RANDOM[/*Zero width*/ 1'b0][0];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:10:7, :45:30
-        delayed_r_1 = _RANDOM[/*Zero width*/ 1'b0][1];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:10:7, :45:30
-        delayed = _RANDOM[/*Zero width*/ 1'b0][2];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:10:7, :45:30
+      `ifdef RANDOMIZE_REG_INIT	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
+        _RANDOM[/*Zero width*/ 1'b0] = `RANDOM;	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
+        reg_0 = _RANDOM[/*Zero width*/ 1'b0][15:0];	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7, :29:22
       `endif // RANDOMIZE_REG_INIT
     end // initial
-    `ifdef FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:10:7
-      `FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:10:7
+    `ifdef FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
+      `FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7
     `endif // FIRRTL_AFTER_INITIAL
   `endif // ENABLE_INITIAL_REG_
-  FixedComplexMultiplier multiplier_0 (	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:14:39
+  assign io_out = reg_0;	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:22:7, :29:22
+endmodule
+
+module FixedComplexSubber(	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:26:7
+  input         clock,	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:26:7
+                reset,	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:26:7
+  input  [15:0] io_in_a_0,	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:27:14
+                io_in_a_1,	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:27:14
+                io_in_b_0,	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:27:14
+                io_in_b_1,	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:27:14
+  output [15:0] io_out_0,	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:27:14
+                io_out_1	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:27:14
+);
+
+  Fixed16BitAdder_2 Subber_0 (	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:32:34
+    .clock   (clock),
+    .reset   (reset),
+    .io_in_0 (io_in_a_0),
+    .io_in_1 (io_in_b_0),
+    .io_out  (io_out_0)
+  );
+  Fixed16BitAdder_2 Subber_1 (	// \\src\\main\\scala\\FixedPointUnit\\ComplexFixedPoint\\FixedComplexUnit.scala:32:34
+    .clock   (clock),
+    .reset   (reset),
+    .io_in_0 (io_in_a_1),
+    .io_in_1 (io_in_b_1),
+    .io_out  (io_out_1)
+  );
+endmodule
+
+module HadamardGate(	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:11:7
+  input         clock,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:11:7
+                reset,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:11:7
+  input  [15:0] io_in_QSV_0_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:14:14
+                io_in_QSV_0_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:14:14
+                io_in_QSV_1_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:14:14
+                io_in_QSV_1_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:14:14
+  input         io_in_valid,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:14:14
+  output [15:0] io_out_QSV_0_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:14:14
+                io_out_QSV_0_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:14:14
+                io_out_QSV_1_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:14:14
+                io_out_QSV_1_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:14:14
+  output        io_out_valid	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:14:14
+);
+
+  wire [15:0] _multiplier_3_io_out_fixed_data;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:16:39
+  wire        _multiplier_3_io_out_valid;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:16:39
+  wire [15:0] _multiplier_2_io_out_fixed_data;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:16:39
+  wire        _multiplier_2_io_out_valid;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:16:39
+  wire [15:0] _multiplier_1_io_out_fixed_data;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:16:39
+  wire        _multiplier_1_io_out_valid;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:16:39
+  wire [15:0] _multiplier_0_io_out_fixed_data;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:16:39
+  wire        _multiplier_0_io_out_valid;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:16:39
+  reg         delay;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:58:28
+  always @(posedge clock)	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:11:7
+    delay <=
+      _multiplier_0_io_out_valid & _multiplier_1_io_out_valid & _multiplier_2_io_out_valid
+      & _multiplier_3_io_out_valid;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:16:39, :58:28, :61:32
+  `ifdef ENABLE_INITIAL_REG_	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:11:7
+    `ifdef FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:11:7
+      `FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:11:7
+    `endif // FIRRTL_BEFORE_INITIAL
+    initial begin	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:11:7
+      automatic logic [31:0] _RANDOM[0:0];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:11:7
+      `ifdef INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:11:7
+        `INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:11:7
+      `endif // INIT_RANDOM_PROLOG_
+      `ifdef RANDOMIZE_REG_INIT	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:11:7
+        _RANDOM[/*Zero width*/ 1'b0] = `RANDOM;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:11:7
+        delay = _RANDOM[/*Zero width*/ 1'b0][0];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:11:7, :58:28
+      `endif // RANDOMIZE_REG_INIT
+    end // initial
+    `ifdef FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:11:7
+      `FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:11:7
+    `endif // FIRRTL_AFTER_INITIAL
+  `endif // ENABLE_INITIAL_REG_
+  FixedMult multiplier_0 (	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:16:39
+    .clock                (clock),
+    .io_in_multiplicant_0 (io_in_QSV_0_0),
+    .io_in_valid          (io_in_valid),
+    .io_out_fixed_data    (_multiplier_0_io_out_fixed_data),
+    .io_out_valid         (_multiplier_0_io_out_valid)
+  );
+  FixedMult multiplier_1 (	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:16:39
+    .clock                (clock),
+    .io_in_multiplicant_0 (io_in_QSV_0_1),
+    .io_in_valid          (io_in_valid),
+    .io_out_fixed_data    (_multiplier_1_io_out_fixed_data),
+    .io_out_valid         (_multiplier_1_io_out_valid)
+  );
+  FixedMult multiplier_2 (	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:16:39
+    .clock                (clock),
+    .io_in_multiplicant_0 (io_in_QSV_1_0),
+    .io_in_valid          (io_in_valid),
+    .io_out_fixed_data    (_multiplier_2_io_out_fixed_data),
+    .io_out_valid         (_multiplier_2_io_out_valid)
+  );
+  FixedMult multiplier_3 (	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:16:39
+    .clock                (clock),
+    .io_in_multiplicant_0 (io_in_QSV_1_1),
+    .io_in_valid          (io_in_valid),
+    .io_out_fixed_data    (_multiplier_3_io_out_fixed_data),
+    .io_out_valid         (_multiplier_3_io_out_valid)
+  );
+  FixedComplexAdder adder (	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:17:27
     .clock     (clock),
     .reset     (reset),
-    .io_in_a_0 (io_in_QSV_0_0),
-    .io_in_a_1 (io_in_QSV_0_1),
-    .io_out_0  (_multiplier_0_io_out_0),
-    .io_out_1  (_multiplier_0_io_out_1)
+    .io_in_a_0 (_multiplier_0_io_out_fixed_data),	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:16:39
+    .io_in_a_1 (_multiplier_1_io_out_fixed_data),	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:16:39
+    .io_in_b_0 (_multiplier_2_io_out_fixed_data),	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:16:39
+    .io_in_b_1 (_multiplier_3_io_out_fixed_data),	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:16:39
+    .io_out_0  (io_out_QSV_0_0),
+    .io_out_1  (io_out_QSV_0_1)
   );
-  FixedComplexMultiplier multiplier_1 (	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:14:39
+  FixedComplexSubber subber (	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:18:27
     .clock     (clock),
     .reset     (reset),
-    .io_in_a_0 (io_in_QSV_1_0),
-    .io_in_a_1 (io_in_QSV_1_1),
-    .io_out_0  (_multiplier_1_io_out_0),
-    .io_out_1  (_multiplier_1_io_out_1)
+    .io_in_a_0 (_multiplier_0_io_out_fixed_data),	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:16:39
+    .io_in_a_1 (_multiplier_1_io_out_fixed_data),	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:16:39
+    .io_in_b_0 (_multiplier_2_io_out_fixed_data),	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:16:39
+    .io_in_b_1 (_multiplier_3_io_out_fixed_data),	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:16:39
+    .io_out_0  (io_out_QSV_1_0),
+    .io_out_1  (io_out_QSV_1_1)
   );
-  FixedComplexAdder adder (	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:15:27
-    .clock     (clock),
-    .reset     (reset),
-    .io_in_a_0 (_multiplier_0_io_out_0),	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:14:39
-    .io_in_a_1 (_multiplier_0_io_out_1),	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:14:39
-    .io_in_b_0 (_multiplier_1_io_out_0),	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:14:39
-    .io_in_b_1 (_multiplier_1_io_out_1),	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:14:39
-    .io_out_0  (_adder_io_out_0),
-    .io_out_1  (_adder_io_out_1)
-  );
-  assign io_out_QSV_0_0 = _adder_io_out_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:10:7, :15:27
-  assign io_out_QSV_0_1 = _adder_io_out_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:10:7, :15:27
-  assign io_out_QSV_1_0 = _adder_io_out_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:10:7, :15:27
-  assign io_out_QSV_1_1 = _adder_io_out_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:10:7, :15:27
-  assign io_out_valid = delayed;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:10:7, :45:30
+  assign io_out_valid = delay;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:11:7, :58:28
 endmodule
 
 module ChooseGate(	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SpanVector.scala:18:7
@@ -789,67 +807,67 @@ module CompatiblePerm(	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Pe
   assign io_out_valid = io_out_valid_REG;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Permutation\\CompatiblePerm.scala:7:7, :36:26
 endmodule
 
-module XGate(	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7
-  input         clock,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7
-                reset,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7
-  input  [15:0] io_in_QSV_0_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:147:14
-                io_in_QSV_0_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:147:14
-                io_in_QSV_1_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:147:14
-                io_in_QSV_1_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:147:14
-  input         io_in_valid,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:147:14
-  output [15:0] io_out_QSV_0_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:147:14
-                io_out_QSV_0_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:147:14
-                io_out_QSV_1_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:147:14
-                io_out_QSV_1_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:147:14
-  output        io_out_valid	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:147:14
+module XGate(	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7
+  input         clock,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7
+                reset,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7
+  input  [15:0] io_in_QSV_0_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:187:14
+                io_in_QSV_0_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:187:14
+                io_in_QSV_1_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:187:14
+                io_in_QSV_1_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:187:14
+  input         io_in_valid,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:187:14
+  output [15:0] io_out_QSV_0_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:187:14
+                io_out_QSV_0_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:187:14
+                io_out_QSV_1_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:187:14
+                io_out_QSV_1_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:187:14
+  output        io_out_valid	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:187:14
 );
 
-  reg [15:0] reg_0_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:152:22
-  reg [15:0] reg_0_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:152:22
-  reg [15:0] reg_1_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:152:22
-  reg [15:0] reg_1_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:152:22
-  always @(posedge clock) begin	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7
-    if (reset) begin	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7
-      reg_0_0 <= io_in_QSV_0_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:152:22
-      reg_0_1 <= io_in_QSV_0_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:152:22
-      reg_1_0 <= io_in_QSV_1_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:152:22
-      reg_1_1 <= io_in_QSV_1_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:152:22
+  reg [15:0] reg_0_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:192:22
+  reg [15:0] reg_0_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:192:22
+  reg [15:0] reg_1_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:192:22
+  reg [15:0] reg_1_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:192:22
+  always @(posedge clock) begin	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7
+    if (reset) begin	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7
+      reg_0_0 <= io_in_QSV_0_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:192:22
+      reg_0_1 <= io_in_QSV_0_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:192:22
+      reg_1_0 <= io_in_QSV_1_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:192:22
+      reg_1_1 <= io_in_QSV_1_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:192:22
     end
-    else begin	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7
-      reg_0_0 <= io_in_QSV_0_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:152:22
-      reg_0_1 <= io_in_QSV_0_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:152:22
-      reg_1_0 <= io_in_QSV_1_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:152:22
-      reg_1_1 <= io_in_QSV_1_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:152:22
+    else begin	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7
+      reg_0_0 <= io_in_QSV_0_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:192:22
+      reg_0_1 <= io_in_QSV_0_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:192:22
+      reg_1_0 <= io_in_QSV_1_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:192:22
+      reg_1_1 <= io_in_QSV_1_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:192:22
     end
   end // always @(posedge)
-  `ifdef ENABLE_INITIAL_REG_	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7
-    `ifdef FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7
-      `FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7
+  `ifdef ENABLE_INITIAL_REG_	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7
+    `ifdef FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7
+      `FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7
     `endif // FIRRTL_BEFORE_INITIAL
-    initial begin	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7
-      automatic logic [31:0] _RANDOM[0:1];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7
-      `ifdef INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7
-        `INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7
+    initial begin	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7
+      automatic logic [31:0] _RANDOM[0:1];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7
+      `ifdef INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7
+        `INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7
       `endif // INIT_RANDOM_PROLOG_
-      `ifdef RANDOMIZE_REG_INIT	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7
+      `ifdef RANDOMIZE_REG_INIT	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7
         for (logic [1:0] i = 2'h0; i < 2'h2; i += 2'h1) begin
-          _RANDOM[i[0]] = `RANDOM;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7
-        end	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7
-        reg_0_0 = _RANDOM[1'h0][15:0];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7, :152:22
-        reg_0_1 = _RANDOM[1'h0][31:16];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7, :152:22
-        reg_1_0 = _RANDOM[1'h1][15:0];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7, :152:22
-        reg_1_1 = _RANDOM[1'h1][31:16];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7, :152:22
+          _RANDOM[i[0]] = `RANDOM;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7
+        end	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7
+        reg_0_0 = _RANDOM[1'h0][15:0];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7, :192:22
+        reg_0_1 = _RANDOM[1'h0][31:16];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7, :192:22
+        reg_1_0 = _RANDOM[1'h1][15:0];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7, :192:22
+        reg_1_1 = _RANDOM[1'h1][31:16];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7, :192:22
       `endif // RANDOMIZE_REG_INIT
     end // initial
-    `ifdef FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7
-      `FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7
+    `ifdef FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7
+      `FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7
     `endif // FIRRTL_AFTER_INITIAL
   `endif // ENABLE_INITIAL_REG_
-  assign io_out_QSV_0_0 = reg_1_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7, :152:22
-  assign io_out_QSV_0_1 = reg_1_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7, :152:22
-  assign io_out_QSV_1_0 = reg_0_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7, :152:22
-  assign io_out_QSV_1_1 = reg_0_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7, :152:22
-  assign io_out_valid = io_in_valid;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:146:7
+  assign io_out_QSV_0_0 = reg_1_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7, :192:22
+  assign io_out_QSV_0_1 = reg_1_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7, :192:22
+  assign io_out_QSV_1_0 = reg_0_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7, :192:22
+  assign io_out_QSV_1_1 = reg_0_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7, :192:22
+  assign io_out_valid = io_in_valid;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:186:7
 endmodule
 
 module ChooseGate_2(	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SpanVector.scala:18:7
@@ -936,80 +954,86 @@ module XGate2QubitVector16bit(	// \\src\\main\\scala\\QunatumLayers\\ArithmiticG
   );
 endmodule
 
-module SqrtXGate(	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7
-  input         clock,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7
-                reset,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7
-  input  [15:0] io_in_QSV_0_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:82:14
-                io_in_QSV_0_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:82:14
-                io_in_QSV_1_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:82:14
-                io_in_QSV_1_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:82:14
-  input         io_in_valid,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:82:14
-  output [15:0] io_out_QSV_0_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:82:14
-                io_out_QSV_0_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:82:14
-                io_out_QSV_1_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:82:14
-                io_out_QSV_1_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:82:14
-  output        io_out_valid	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:82:14
+module SqrtXGate(	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7
+  input         clock,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7
+  input  [15:0] io_in_QSV_0_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:99:14
+                io_in_QSV_0_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:99:14
+                io_in_QSV_1_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:99:14
+                io_in_QSV_1_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:99:14
+  input         io_in_valid,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:99:14
+  output [15:0] io_out_QSV_0_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:99:14
+                io_out_QSV_0_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:99:14
+                io_out_QSV_1_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:99:14
+                io_out_QSV_1_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:99:14
+  output        io_out_valid	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:99:14
 );
 
-  reg [15:0] regout_0_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:87:23
-  reg [15:0] regout_0_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:87:23
-  reg [15:0] regout_1_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:87:23
-  reg [15:0] regout_1_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:87:23
-  reg        delayed;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:109:30
-  always @(posedge clock) begin	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7
-    if (reset) begin	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7
-      regout_0_0 <= regout_0_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:87:23
-      regout_0_1 <= regout_0_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:87:23
-      regout_1_0 <= regout_1_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:87:23
-      regout_1_1 <= regout_1_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:87:23
-    end
-    else begin	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7
-      automatic logic [15:0] _GEN = {io_in_QSV_0_0[15], io_in_QSV_0_0[15:1]};	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:94:{5,24}, :100:20
-      automatic logic [15:0] _GEN_0 = {io_in_QSV_0_1[15], io_in_QSV_0_1[15:1]};	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:95:{5,24}, :100:20
-      automatic logic [15:0] _GEN_1 = {io_in_QSV_1_0[15], io_in_QSV_1_0[15:1]};	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:96:{5,24}, :100:22
-      automatic logic [15:0] _GEN_2 = {io_in_QSV_1_1[15], io_in_QSV_1_1[15:1]};	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:97:{5,24}, :100:24
-      automatic logic [15:0] _regout_1_0_T = _GEN + _GEN_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:100:20, :101:20
-      regout_0_0 <= _GEN - _GEN_0 + _GEN_1 + _GEN_2;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:87:23, :100:{20,22,24}
-      regout_0_1 <= _regout_1_0_T - _GEN_1 + _GEN_2;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:87:23, :100:{22,24}, :101:{20,22,24}
-      regout_1_0 <= _regout_1_0_T + _GEN_1 - _GEN_2;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:87:23, :100:{22,24}, :101:20, :102:{22,24}
-      regout_1_1 <= _GEN_0 + _GEN_1 + _GEN_2 - _GEN;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:87:23, :100:{20,22,24}, :103:{22,24}
-    end
-    delayed <= io_in_valid;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:109:30
+  reg [15:0] AaddB;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:107:18
+  reg [15:0] CaddD;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:108:18
+  reg [15:0] AsubB;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:112:18
+  reg [15:0] CsubD;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:113:18
+  reg [15:0] BsubA;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:114:18
+  reg [15:0] DsubC;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:115:18
+  reg [15:0] Real0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:122:18
+  reg [15:0] Imag0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:123:18
+  reg [15:0] Real1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:124:18
+  reg [15:0] Imag1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:125:18
+  reg        delayed_r;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:138:30
+  reg        delayed;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:138:30
+  always @(posedge clock) begin	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7
+    AaddB <= io_in_QSV_0_0 + io_in_QSV_0_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:107:18, :109:28
+    CaddD <= io_in_QSV_1_0 + io_in_QSV_1_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:108:18, :110:28
+    AsubB <= io_in_QSV_0_0 - io_in_QSV_0_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:112:18, :116:28
+    CsubD <= io_in_QSV_1_0 - io_in_QSV_1_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:113:18, :117:28
+    BsubA <= io_in_QSV_0_1 - io_in_QSV_0_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:114:18, :118:28
+    DsubC <= io_in_QSV_1_1 - io_in_QSV_1_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:115:18, :119:28
+    Real0 <= AsubB + CaddD;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:108:18, :112:18, :122:18, :126:18
+    Imag0 <= AaddB + DsubC;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:107:18, :115:18, :123:18, :127:18
+    Real1 <= AaddB + CsubD;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:107:18, :113:18, :124:18, :128:18
+    Imag1 <= BsubA + CaddD;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:108:18, :114:18, :125:18, :129:18
+    delayed_r <= io_in_valid;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:138:30
+    delayed <= delayed_r;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:138:30
   end // always @(posedge)
-  `ifdef ENABLE_INITIAL_REG_	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7
-    `ifdef FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7
-      `FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7
+  `ifdef ENABLE_INITIAL_REG_	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7
+    `ifdef FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7
+      `FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7
     `endif // FIRRTL_BEFORE_INITIAL
-    initial begin	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7
-      automatic logic [31:0] _RANDOM[0:2];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7
-      `ifdef INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7
-        `INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7
+    initial begin	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7
+      automatic logic [31:0] _RANDOM[0:5];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7
+      `ifdef INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7
+        `INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7
       `endif // INIT_RANDOM_PROLOG_
-      `ifdef RANDOMIZE_REG_INIT	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7
-        for (logic [1:0] i = 2'h0; i < 2'h3; i += 2'h1) begin
-          _RANDOM[i] = `RANDOM;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7
-        end	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7
-        regout_0_0 = _RANDOM[2'h0][15:0];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7, :87:23
-        regout_0_1 = _RANDOM[2'h0][31:16];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7, :87:23
-        regout_1_0 = _RANDOM[2'h1][15:0];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7, :87:23
-        regout_1_1 = _RANDOM[2'h1][31:16];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7, :87:23
-        delayed = _RANDOM[2'h2][0];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7, :109:30
+      `ifdef RANDOMIZE_REG_INIT	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7
+        for (logic [2:0] i = 3'h0; i < 3'h6; i += 3'h1) begin
+          _RANDOM[i] = `RANDOM;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7
+        end	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7
+        AaddB = _RANDOM[3'h0][15:0];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7, :107:18
+        CaddD = _RANDOM[3'h0][31:16];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7, :107:18, :108:18
+        AsubB = _RANDOM[3'h1][15:0];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7, :112:18
+        CsubD = _RANDOM[3'h1][31:16];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7, :112:18, :113:18
+        BsubA = _RANDOM[3'h2][15:0];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7, :114:18
+        DsubC = _RANDOM[3'h2][31:16];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7, :114:18, :115:18
+        Real0 = _RANDOM[3'h3][15:0];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7, :122:18
+        Imag0 = _RANDOM[3'h3][31:16];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7, :122:18, :123:18
+        Real1 = _RANDOM[3'h4][15:0];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7, :124:18
+        Imag1 = _RANDOM[3'h4][31:16];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7, :124:18, :125:18
+        delayed_r = _RANDOM[3'h5][0];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7, :138:30
+        delayed = _RANDOM[3'h5][1];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7, :138:30
       `endif // RANDOMIZE_REG_INIT
     end // initial
-    `ifdef FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7
-      `FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7
+    `ifdef FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7
+      `FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7
     `endif // FIRRTL_AFTER_INITIAL
   `endif // ENABLE_INITIAL_REG_
-  assign io_out_QSV_0_0 = regout_0_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7, :87:23
-  assign io_out_QSV_0_1 = regout_0_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7, :87:23
-  assign io_out_QSV_1_0 = regout_1_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7, :87:23
-  assign io_out_QSV_1_1 = regout_1_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7, :87:23
-  assign io_out_valid = delayed;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:81:7, :109:30
+  assign io_out_QSV_0_0 = {Real0[15], Real0[15:1]};	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7, :122:18, :132:{20,29}
+  assign io_out_QSV_0_1 = {Imag0[15], Imag0[15:1]};	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7, :123:18, :133:{20,29}
+  assign io_out_QSV_1_0 = {Real1[15], Real1[15:1]};	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7, :124:18, :134:{20,29}
+  assign io_out_QSV_1_1 = {Imag1[15], Imag1[15:1]};	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7, :125:18, :135:{20,29}
+  assign io_out_valid = delayed;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:98:7, :138:30
 endmodule
 
 module ChooseGate_4(	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SpanVector.scala:18:7
   input         clock,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SpanVector.scala:18:7
-                reset,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SpanVector.scala:18:7
   input  [15:0] io_in_QSV_0_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SpanVector.scala:19:14
                 io_in_QSV_0_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SpanVector.scala:19:14
                 io_in_QSV_1_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SpanVector.scala:19:14
@@ -1024,7 +1048,6 @@ module ChooseGate_4(	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gate
 
   SqrtXGate gate (	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SpanVector.scala:27:22
     .clock          (clock),
-    .reset          (reset),
     .io_in_QSV_0_0  (io_in_QSV_0_0),
     .io_in_QSV_0_1  (io_in_QSV_0_1),
     .io_in_QSV_1_0  (io_in_QSV_1_0),
@@ -1040,7 +1063,6 @@ endmodule
 
 module SXGate2QubitVector16bit(	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SpanVector.scala:38:7
   input         clock,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SpanVector.scala:38:7
-                reset,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SpanVector.scala:38:7
   input  [15:0] io_in_QSV_0_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SpanVector.scala:40:14
                 io_in_QSV_0_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SpanVector.scala:40:14
                 io_in_QSV_1_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SpanVector.scala:40:14
@@ -1063,7 +1085,6 @@ module SXGate2QubitVector16bit(	// \\src\\main\\scala\\QunatumLayers\\Arithmitic
 
   ChooseGate_4 gate_0 (	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SpanVector.scala:44:53
     .clock          (clock),
-    .reset          (reset),
     .io_in_QSV_0_0  (io_in_QSV_0_0),
     .io_in_QSV_0_1  (io_in_QSV_0_1),
     .io_in_QSV_1_0  (io_in_QSV_1_0),
@@ -1077,7 +1098,6 @@ module SXGate2QubitVector16bit(	// \\src\\main\\scala\\QunatumLayers\\Arithmitic
   );
   ChooseGate_4 gate_1 (	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SpanVector.scala:44:53
     .clock          (clock),
-    .reset          (reset),
     .io_in_QSV_0_0  (io_in_QSV_2_0),
     .io_in_QSV_0_1  (io_in_QSV_2_1),
     .io_in_QSV_1_0  (io_in_QSV_3_0),
@@ -1091,95 +1111,95 @@ module SXGate2QubitVector16bit(	// \\src\\main\\scala\\QunatumLayers\\Arithmitic
   );
 endmodule
 
-module SwapGate(	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7
-  input         clock,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7
-                reset,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7
-  input  [15:0] io_in_QSV_0_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:219:15
-                io_in_QSV_0_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:219:15
-                io_in_QSV_1_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:219:15
-                io_in_QSV_1_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:219:15
-                io_in_QSV_2_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:219:15
-                io_in_QSV_2_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:219:15
-                io_in_QSV_3_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:219:15
-                io_in_QSV_3_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:219:15
-  input         io_in_valid,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:219:15
-  output [15:0] io_out_QSV_0_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:219:15
-                io_out_QSV_0_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:219:15
-                io_out_QSV_1_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:219:15
-                io_out_QSV_1_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:219:15
-                io_out_QSV_2_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:219:15
-                io_out_QSV_2_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:219:15
-                io_out_QSV_3_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:219:15
-                io_out_QSV_3_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:219:15
-  output        io_out_valid	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:219:15
+module SwapGate(	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7
+  input         clock,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7
+                reset,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7
+  input  [15:0] io_in_QSV_0_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:259:15
+                io_in_QSV_0_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:259:15
+                io_in_QSV_1_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:259:15
+                io_in_QSV_1_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:259:15
+                io_in_QSV_2_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:259:15
+                io_in_QSV_2_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:259:15
+                io_in_QSV_3_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:259:15
+                io_in_QSV_3_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:259:15
+  input         io_in_valid,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:259:15
+  output [15:0] io_out_QSV_0_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:259:15
+                io_out_QSV_0_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:259:15
+                io_out_QSV_1_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:259:15
+                io_out_QSV_1_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:259:15
+                io_out_QSV_2_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:259:15
+                io_out_QSV_2_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:259:15
+                io_out_QSV_3_0,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:259:15
+                io_out_QSV_3_1,	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:259:15
+  output        io_out_valid	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:259:15
 );
 
-  reg [15:0] reg_0_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:226:22
-  reg [15:0] reg_0_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:226:22
-  reg [15:0] reg_1_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:226:22
-  reg [15:0] reg_1_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:226:22
-  reg [15:0] reg_2_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:226:22
-  reg [15:0] reg_2_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:226:22
-  reg [15:0] reg_3_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:226:22
-  reg [15:0] reg_3_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:226:22
-  always @(posedge clock) begin	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7
-    if (reset) begin	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7
-      reg_0_0 <= io_in_QSV_0_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:226:22
-      reg_0_1 <= io_in_QSV_0_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:226:22
-      reg_1_0 <= io_in_QSV_1_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:226:22
-      reg_1_1 <= io_in_QSV_1_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:226:22
-      reg_2_0 <= io_in_QSV_2_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:226:22
-      reg_2_1 <= io_in_QSV_2_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:226:22
-      reg_3_0 <= io_in_QSV_3_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:226:22
-      reg_3_1 <= io_in_QSV_3_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:226:22
+  reg [15:0] reg_0_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:266:22
+  reg [15:0] reg_0_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:266:22
+  reg [15:0] reg_1_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:266:22
+  reg [15:0] reg_1_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:266:22
+  reg [15:0] reg_2_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:266:22
+  reg [15:0] reg_2_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:266:22
+  reg [15:0] reg_3_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:266:22
+  reg [15:0] reg_3_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:266:22
+  always @(posedge clock) begin	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7
+    if (reset) begin	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7
+      reg_0_0 <= io_in_QSV_0_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:266:22
+      reg_0_1 <= io_in_QSV_0_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:266:22
+      reg_1_0 <= io_in_QSV_1_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:266:22
+      reg_1_1 <= io_in_QSV_1_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:266:22
+      reg_2_0 <= io_in_QSV_2_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:266:22
+      reg_2_1 <= io_in_QSV_2_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:266:22
+      reg_3_0 <= io_in_QSV_3_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:266:22
+      reg_3_1 <= io_in_QSV_3_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:266:22
     end
-    else begin	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7
-      reg_0_0 <= io_in_QSV_0_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:226:22
-      reg_0_1 <= io_in_QSV_0_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:226:22
-      reg_1_0 <= io_in_QSV_1_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:226:22
-      reg_1_1 <= io_in_QSV_1_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:226:22
-      reg_2_0 <= io_in_QSV_2_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:226:22
-      reg_2_1 <= io_in_QSV_2_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:226:22
-      reg_3_0 <= io_in_QSV_3_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:226:22
-      reg_3_1 <= io_in_QSV_3_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:226:22
+    else begin	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7
+      reg_0_0 <= io_in_QSV_0_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:266:22
+      reg_0_1 <= io_in_QSV_0_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:266:22
+      reg_1_0 <= io_in_QSV_1_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:266:22
+      reg_1_1 <= io_in_QSV_1_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:266:22
+      reg_2_0 <= io_in_QSV_2_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:266:22
+      reg_2_1 <= io_in_QSV_2_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:266:22
+      reg_3_0 <= io_in_QSV_3_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:266:22
+      reg_3_1 <= io_in_QSV_3_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:266:22
     end
   end // always @(posedge)
-  `ifdef ENABLE_INITIAL_REG_	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7
-    `ifdef FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7
-      `FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7
+  `ifdef ENABLE_INITIAL_REG_	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7
+    `ifdef FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7
+      `FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7
     `endif // FIRRTL_BEFORE_INITIAL
-    initial begin	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7
-      automatic logic [31:0] _RANDOM[0:3];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7
-      `ifdef INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7
-        `INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7
+    initial begin	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7
+      automatic logic [31:0] _RANDOM[0:3];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7
+      `ifdef INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7
+        `INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7
       `endif // INIT_RANDOM_PROLOG_
-      `ifdef RANDOMIZE_REG_INIT	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7
+      `ifdef RANDOMIZE_REG_INIT	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7
         for (logic [2:0] i = 3'h0; i < 3'h4; i += 3'h1) begin
-          _RANDOM[i[1:0]] = `RANDOM;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7
-        end	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7
-        reg_0_0 = _RANDOM[2'h0][15:0];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7, :226:22
-        reg_0_1 = _RANDOM[2'h0][31:16];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7, :226:22
-        reg_1_0 = _RANDOM[2'h1][15:0];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7, :226:22
-        reg_1_1 = _RANDOM[2'h1][31:16];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7, :226:22
-        reg_2_0 = _RANDOM[2'h2][15:0];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7, :226:22
-        reg_2_1 = _RANDOM[2'h2][31:16];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7, :226:22
-        reg_3_0 = _RANDOM[2'h3][15:0];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7, :226:22
-        reg_3_1 = _RANDOM[2'h3][31:16];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7, :226:22
+          _RANDOM[i[1:0]] = `RANDOM;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7
+        end	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7
+        reg_0_0 = _RANDOM[2'h0][15:0];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7, :266:22
+        reg_0_1 = _RANDOM[2'h0][31:16];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7, :266:22
+        reg_1_0 = _RANDOM[2'h1][15:0];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7, :266:22
+        reg_1_1 = _RANDOM[2'h1][31:16];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7, :266:22
+        reg_2_0 = _RANDOM[2'h2][15:0];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7, :266:22
+        reg_2_1 = _RANDOM[2'h2][31:16];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7, :266:22
+        reg_3_0 = _RANDOM[2'h3][15:0];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7, :266:22
+        reg_3_1 = _RANDOM[2'h3][31:16];	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7, :266:22
       `endif // RANDOMIZE_REG_INIT
     end // initial
-    `ifdef FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7
-      `FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7
+    `ifdef FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7
+      `FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7
     `endif // FIRRTL_AFTER_INITIAL
   `endif // ENABLE_INITIAL_REG_
-  assign io_out_QSV_0_0 = reg_0_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7, :226:22
-  assign io_out_QSV_0_1 = reg_0_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7, :226:22
-  assign io_out_QSV_1_0 = reg_2_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7, :226:22
-  assign io_out_QSV_1_1 = reg_2_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7, :226:22
-  assign io_out_QSV_2_0 = reg_1_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7, :226:22
-  assign io_out_QSV_2_1 = reg_1_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7, :226:22
-  assign io_out_QSV_3_0 = reg_3_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7, :226:22
-  assign io_out_QSV_3_1 = reg_3_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7, :226:22
-  assign io_out_valid = io_in_valid;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:218:7
+  assign io_out_QSV_0_0 = reg_0_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7, :266:22
+  assign io_out_QSV_0_1 = reg_0_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7, :266:22
+  assign io_out_QSV_1_0 = reg_2_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7, :266:22
+  assign io_out_QSV_1_1 = reg_2_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7, :266:22
+  assign io_out_QSV_2_0 = reg_1_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7, :266:22
+  assign io_out_QSV_2_1 = reg_1_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7, :266:22
+  assign io_out_QSV_3_0 = reg_3_0;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7, :266:22
+  assign io_out_QSV_3_1 = reg_3_1;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7, :266:22
+  assign io_out_valid = io_in_valid;	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SingleGate.scala:258:7
 endmodule
 
 module ChooseGate_6(	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Gates\\SpanVector.scala:18:7
@@ -1412,7 +1432,6 @@ module Circuit0_5(	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\Genera
   );
   SXGate2QubitVector16bit m_3 (	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\GeneratePipline.scala:34:23
     .clock          (clock),
-    .reset          (reset),
     .io_in_QSV_0_0  (_m_2_io_out_QSV_0_0),	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\GeneratePipline.scala:34:23
     .io_in_QSV_0_1  (_m_2_io_out_QSV_0_1),	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\GeneratePipline.scala:34:23
     .io_in_QSV_1_0  (_m_2_io_out_QSV_1_0),	// \\src\\main\\scala\\QunatumLayers\\ArithmiticGates\\GeneratePipline.scala:34:23

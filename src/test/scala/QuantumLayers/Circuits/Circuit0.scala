@@ -1,7 +1,7 @@
 package QuantumLayers.Circuits
 
 import QuantumLayers.ArithmiticGates.Gates._
-import QunatumLayers.ArithmiticGates.Pipline.{Gate, GeneratePiplinedGates}
+import QuantumLayers.ArithmiticGates.Pipline.{Gate, GeneratePiplinedGates}
 import chisel3._
 import chiseltest._
 import firrtl2.options.TargetDirAnnotation

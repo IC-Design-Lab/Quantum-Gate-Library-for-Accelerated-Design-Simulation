@@ -15,17 +15,17 @@ class Circuit0 extends AnyFlatSpec with ChiselScalatestTester {
 
       dut.clock.step(1)
 
-      dut.io.in_QSV(0)(0).poke(0x4000.S) //sqrt(1/2)
+      dut.io.in_QSV(0)(0).poke(0x4000.S) // 1
       dut.io.in_QSV(0)(1).poke(0.S)
-      dut.io.in_QSV(1)(0).poke(0.S) //sqrt(1/2)
+      dut.io.in_QSV(1)(0).poke(0.S)
       dut.io.in_QSV(1)(1).poke(0.S)
-      dut.io.in_QSV(2)(0).poke(0.S) //sqrt(1/2)
+      dut.io.in_QSV(2)(0).poke(0.S)
       dut.io.in_QSV(2)(1).poke(0.S)
-      dut.io.in_QSV(3)(0).poke(0.S) //sqrt(1/2)
+      dut.io.in_QSV(3)(0).poke(0.S)
       dut.io.in_QSV(3)(1).poke(0.S)
 
       dut.io.in_valid.poke(1.B)
 
-      dut.clock.step(4)
+      dut.clock.step(10)
     }
 }

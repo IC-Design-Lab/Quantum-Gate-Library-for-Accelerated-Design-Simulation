@@ -43,7 +43,6 @@ class GeneratePiplinedGates(val num_of_qubits : Int, val bitwidth : Int, val Cir
         m.io.in_valid := current.valid
         next.QSV      := m.io.out_QSV
         next.valid    := m.io.out_valid
-
     }
 
     current = next

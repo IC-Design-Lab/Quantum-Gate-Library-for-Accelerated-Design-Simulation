@@ -52,3 +52,39 @@ class FixedMult(val bitwidth : Int, val latency : Int, val pointlocation : Int) 
   //valid
   io.out_valid := ShiftRegister(io.in_valid, latency + 1)
 }
+
+class SplitMultiplier(val width: Int, val stages: Int, val pointloc : Int) extends Module {
+  require(width % stages == 0, "Width must divide evenly by stages")
+
+  val io = IO(new Bundle {
+    val a         = Input(UInt(width.W))
+    val b         = Input(UInt(width.W))
+    val out       = Output(UInt((2*width).W))
+    val out_fixed = Output(UInt(width.W))
+    val valid_in  = Input(Bool())
+    val valid_out = Output(Bool())
+  })
+
+  val chunk = width / stages
+
+  val partials: Seq[UInt] = (0 until stages).map { i =>
+    val hi = (i+1)*chunk - 1
+    val lo = i*chunk
+    val bChunk = io.b(hi, lo)
+    ((io.a * bChunk) << lo).asUInt
+  }
+
+  var acc: UInt = partials.head
+  var valid = io.valid_in
+
+  for (i <- 1 until stages) {
+    val nextAcc: UInt = acc + partials(i)
+    acc = RegNext(nextAcc)
+    valid = RegNext(valid)
+  }
+
+  io.out := acc
+  io.out_fixed := acc(width - 1 + pointloc, pointloc).asUInt
+
+  io.valid_out := valid
+}

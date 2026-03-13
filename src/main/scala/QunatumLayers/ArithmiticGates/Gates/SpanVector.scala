@@ -44,10 +44,9 @@ class SpanVector(val num_of_qubits : Int, val bitwidth : Int, val GateType : Spe
   val gate          = Seq.fill(numberOfGates)(Module(new ChooseGate(bitwidth, GateType)))
 
   //connect valid signals
-  for(i <- 0 until numberOfGates){
-    gate(i).io.in_valid := io.in_valid
-    io.out_valid  := gate(i).io.out_valid.andR
-  }
+  for(i <- 0 until numberOfGates){gate(i).io.in_valid := io.in_valid}
+  val allValid = gate.map(_.io.out_valid).reduce(_ && _)
+  io.out_valid := allValid
 
   //connect ket vector
   val singleGateVectorSize = pow(2, GateType.size).toInt

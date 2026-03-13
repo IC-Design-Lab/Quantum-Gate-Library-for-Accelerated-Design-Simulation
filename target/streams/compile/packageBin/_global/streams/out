@@ -48,6 +48,10 @@
 [0m[[0m[0mdebug[0m] [0m[0m	  C:\Projects\Chisel-Quantum-Emulator\Quantum-Computing-Simulation\target\scala-2.13\classes\FixedPointUnit\Advanced\FixedMult$$anon$1.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	FixedPointUnit\Advanced\FixedMult.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  C:\Projects\Chisel-Quantum-Emulator\Quantum-Computing-Simulation\target\scala-2.13\classes\FixedPointUnit\Advanced\FixedMult.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	FixedPointUnit\Advanced\SplitMultiplier$$anon$2.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Projects\Chisel-Quantum-Emulator\Quantum-Computing-Simulation\target\scala-2.13\classes\FixedPointUnit\Advanced\SplitMultiplier$$anon$2.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	FixedPointUnit\Advanced\SplitMultiplier.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Projects\Chisel-Quantum-Emulator\Quantum-Computing-Simulation\target\scala-2.13\classes\FixedPointUnit\Advanced\SplitMultiplier.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	FixedPointUnit\ComplexFixedPoint[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  C:\Projects\Chisel-Quantum-Emulator\Quantum-Computing-Simulation\target\scala-2.13\classes\FixedPointUnit\ComplexFixedPoint[0m
 [0m[[0m[0mdebug[0m] [0m[0m	FixedPointUnit\ComplexFixedPoint\FixedComplexAdder$$anon$1.class[0m
@@ -252,6 +256,10 @@
 [0m[[0m[0mdebug[0m] [0m[0m	  C:\Projects\Chisel-Quantum-Emulator\Quantum-Computing-Simulation\target\scala-2.13\classes\QuantumLayers\ArithmiticGates\Gates\T$.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	QuantumLayers\ArithmiticGates\Gates\T.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  C:\Projects\Chisel-Quantum-Emulator\Quantum-Computing-Simulation\target\scala-2.13\classes\QuantumLayers\ArithmiticGates\Gates\T.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	QuantumLayers\ArithmiticGates\Gates\TestPermVariant$$anon$2.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Projects\Chisel-Quantum-Emulator\Quantum-Computing-Simulation\target\scala-2.13\classes\QuantumLayers\ArithmiticGates\Gates\TestPermVariant$$anon$2.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	QuantumLayers\ArithmiticGates\Gates\TestPermVariant.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Projects\Chisel-Quantum-Emulator\Quantum-Computing-Simulation\target\scala-2.13\classes\QuantumLayers\ArithmiticGates\Gates\TestPermVariant.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	QuantumLayers\ArithmiticGates\Gates\TestVariant$$anon$1.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  C:\Projects\Chisel-Quantum-Emulator\Quantum-Computing-Simulation\target\scala-2.13\classes\QuantumLayers\ArithmiticGates\Gates\TestVariant$$anon$1.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	QuantumLayers\ArithmiticGates\Gates\TestVariant.class[0m

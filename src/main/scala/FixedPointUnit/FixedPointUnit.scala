@@ -38,7 +38,8 @@ class FixedMultiplier(val bitwidth : Int, val pointLoc : Int) extends Module{
   override def desiredName = s"Fixed${bitwidth}BitMultiplier"
   val io = IO(new Bundle{
     val in  =  Input(Vec(2, SInt(bitwidth.W)))
-    val out = Output(SInt(bitwidth.W))
+    val out = Output(SInt((2*bitwidth).W))
+    val out_fixed = Output(SInt(bitwidth.W))
   })
   val wire0   = Wire(SInt((bitwidth + pointLoc).W))
   val wire1   = Wire(SInt((bitwidth + pointLoc).W))
@@ -50,7 +51,8 @@ class FixedMultiplier(val bitwidth : Int, val pointLoc : Int) extends Module{
 
   val outreg = RegInit(0.S(bitwidth.W))
   outreg := wireout(bitwidth - 1 + pointLoc, pointLoc).asSInt
-  io.out := outreg
+  io.out := RegNext(outreg)
+  io.out_fixed := outreg
 }
 
 class FixedDivision(val bitwidth : Int, val pointLoc : Int) extends Module{

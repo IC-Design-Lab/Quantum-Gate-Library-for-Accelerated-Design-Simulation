@@ -8,6 +8,7 @@ import QuantumLayers.ArithmiticGates.Permutation.tie._
  --------------------------------*/
 //Swap target ket vector position to the beginning of the tensor product.
 class rearrangeTo1stPosition(val ketsizeexponent : Int, val bitwidth : Int, val target : Int) extends Module {
+  require(ketsizeexponent >= target, "The target qubit must exist in the number of qubits")
   val size = 1 << (ketsizeexponent)
   val io = IO(new Bundle{
     val in_ket  =  Input(Vec(size, Vec(2, UInt(bitwidth.W))))
@@ -55,7 +56,7 @@ class SwapPositionXandY(val ketsizeexponent : Int, val bitwidth : Int, val targe
   val algorithm        = Module(new rearrangeTo1stPosition(
     ketsizeexponent - LesserRank + 1,
     bitwidth * (1 << (LesserRank)),
-    HigherRank - LesserRank))
+    HigherRank - LesserRank + 1))
 
   //io -> tie
   tieVectorLayer.io.in_QSV    := io.in_ket

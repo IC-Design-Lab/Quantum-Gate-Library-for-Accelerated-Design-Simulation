@@ -1,0 +1,30 @@
+FIRRTL version 1.2.0
+circuit SplitMultiplier :
+  module SplitMultiplier : @[\\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala 56:7]
+    input clock : Clock @[\\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala 56:7]
+    input reset : UInt<1> @[\\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala 56:7]
+    input io_a : UInt<8> @[\\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala 59:14]
+    input io_b : UInt<8> @[\\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala 59:14]
+    output io_out : UInt<16> @[\\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala 59:14]
+    output io_out_fixed : UInt<8> @[\\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala 59:14]
+    input io_valid_in : UInt<1> @[\\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala 59:14]
+    output io_valid_out : UInt<1> @[\\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala 59:14]
+
+    node partials_bChunk = bits(io_b, 3, 0) @[\\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala 73:22]
+    node _partials_T = mul(io_a, partials_bChunk) @[\\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala 74:12]
+    node partials_0 = shl(_partials_T, 0) @[\\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala 74:22]
+    node partials_bChunk_1 = bits(io_b, 7, 4) @[\\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala 73:22]
+    node _partials_T_1 = mul(io_a, partials_bChunk_1) @[\\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala 74:12]
+    node partials_1 = shl(_partials_T_1, 4) @[\\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala 74:22]
+    node _nextAcc_T = add(partials_0, partials_1) @[\\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala 81:29]
+    node nextAcc = tail(_nextAcc_T, 1) @[\\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala 81:29]
+    reg REG : UInt<16>, clock with :
+      reset => (UInt<1>("h0"), REG) @[\\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala 82:18]
+    reg REG_1 : UInt<1>, clock with :
+      reset => (UInt<1>("h0"), REG_1) @[\\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala 83:20]
+    node _io_out_fixed_T = bits(REG, 13, 6) @[\\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala 87:22]
+    io_out <= REG @[\\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala 86:10]
+    io_out_fixed <= _io_out_fixed_T @[\\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala 87:16]
+    io_valid_out <= REG_1 @[\\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala 89:16]
+    REG <= nextAcc @[\\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala 82:18]
+    REG_1 <= io_valid_in @[\\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala 83:20]

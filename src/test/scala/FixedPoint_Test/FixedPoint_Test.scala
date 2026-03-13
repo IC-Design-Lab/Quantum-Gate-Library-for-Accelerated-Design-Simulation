@@ -1,6 +1,6 @@
 package FPU_Test
 
-import FixedPointUnit.Advanced.FixedMult
+import FixedPointUnit.Advanced.{FixedMult, SplitMultiplier}
 import FixedPointUnit._
 import FixedPointUnit.ComplexFixedPoint._
 import chisel3._
@@ -111,18 +111,18 @@ class TestSimpleSqrt extends AnyFlatSpec with ChiselScalatestTester {
 
 class TestMultiplier2 extends AnyFlatSpec with ChiselScalatestTester {
   "Please" should "Multiply" in
-    test(new FixedMult(8,3,6)).withAnnotations(
+    test(new SplitMultiplier(8,2,6)).withAnnotations(
       Seq(WriteVcdAnnotation, TargetDirAnnotation("test_run_dir/FixedPoint/Pipeline/Multiplier"))) { dut =>
-      dut.io.in_multiplicant(0).poke(0x40.S(8.W))
-      dut.io.in_multiplicant(1).poke(0x2D.S(8.W))
-      dut.io.in_valid.poke(1.B)
+      dut.io.a.poke(0x40.U(8.W))
+      dut.io.b.poke(0x2D.U(8.W))
+      dut.io.valid_in.poke(1.B)
 
       //check clock cycles until valid
-      println(s"The input: a: ${dut.io.in_multiplicant(0).peek().litValue}")
-      println(s"The input: b: ${dut.io.in_multiplicant(1).peek().litValue}")
+      println(s"The input: a: ${dut.io.a.peek().litValue}")
+      println(s"The input: b: ${dut.io.b.peek().litValue}")
       for(i <- 0 until 32){
         dut.clock.step()
-        println(s"The output: ${dut.io.out_data.peek().litValue} \t valid: ${dut.io.out_valid.peek().litValue}")
+        println(s"The output: ${dut.io.out.peek().litValue} \t valid: ${dut.io.valid_out.peek().litValue}")
       }
     }
 }

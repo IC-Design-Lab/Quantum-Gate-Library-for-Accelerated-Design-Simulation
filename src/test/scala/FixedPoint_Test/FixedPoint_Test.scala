@@ -111,11 +111,23 @@ class TestSimpleSqrt extends AnyFlatSpec with ChiselScalatestTester {
 
 class TestMultiplier2 extends AnyFlatSpec with ChiselScalatestTester {
   "Please" should "Multiply" in
-    test(new SplitMultiplier(8,2,6)).withAnnotations(
+    test(new SplitMultiplier(16,4, 14)).withAnnotations(
       Seq(WriteVcdAnnotation, TargetDirAnnotation("test_run_dir/FixedPoint/Pipeline/Multiplier"))) { dut =>
-      dut.io.a.poke(0x40.U(8.W))
-      dut.io.b.poke(0x2D.U(8.W))
+      dut.io.a.poke(0x4000.U(16.W))
+      dut.io.b.poke(0x2D41.U(16.W))
       dut.io.valid_in.poke(1.B)
+
+      dut.clock.step(1)
+      dut.io.a.poke(0x0000.U(16.W))
+      dut.io.b.poke(0x0000.U(16.W))
+      dut.io.valid_in.poke(1.B)
+
+      dut.clock.step(1)
+      dut.io.a.poke(0x4000.U(16.W))
+      dut.io.b.poke(0x2D41.U(16.W))
+      dut.io.valid_in.poke(1.B)
+
+      dut.clock.step(1)
 
       //check clock cycles until valid
       println(s"The input: a: ${dut.io.a.peek().litValue}")

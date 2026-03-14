@@ -13,6 +13,8 @@ class Circuit0_3 extends AnyFlatSpec with ChiselScalatestTester {
     test(new GeneratePiplinedGates(2, 16, "TestCircuit", Seq(Gate(H), Perm(2,1), Gate(X), Gate(H), Perm(2,1), Gate(SW)))).withAnnotations(
       Seq(WriteVcdAnnotation, TargetDirAnnotation("test_run_dir/QuantumLayer/Pipeline/Circuit0_3"))) { dut =>
 
+      dut.io.in_valid.poke(1.B)
+
       dut.clock.step(1)
 
       dut.io.in_QSV(0)(0).poke(0x4000.S) // 1
@@ -24,8 +26,19 @@ class Circuit0_3 extends AnyFlatSpec with ChiselScalatestTester {
       dut.io.in_QSV(3)(0).poke(0.S)
       dut.io.in_QSV(3)(1).poke(0.S)
 
-      dut.io.in_valid.poke(1.B)
+      dut.clock.step(1)
 
-      dut.clock.step(25)
+      dut.io.in_QSV(0)(0).poke(0.S)
+
+      dut.clock.step(1)
+
+      dut.io.in_QSV(0)(0).poke(0x4000.S)
+
+      dut.clock.step(1)
+
+      dut.io.in_QSV(0)(0).poke(0x4000.S)
+
+      dut.clock.step(15)
+
     }
 }

@@ -24,6 +24,7 @@ object main extends App{
 
   println(">>> Verilog emission complete")
 }
+
 /*
 object main extends App {
   println(">>> Starting elaboration")
@@ -31,26 +32,13 @@ object main extends App {
   println(">>> Elaboration finished")
 }
 */
-
-
-
 /*
+
 object main extends App {
   println(">>> Starting elaboration")
-
-  ChiselStage.emitSystemVerilog(
-    new FixedAdder(16, true),
-    Array("--target-dir", "generated")
-  )
-
-  println(">>> Finished elaboration")
+  emitVerilog(new SplitMultiplier(16,4,14))
+  println(">>> Elaboration finished")
 }
 
  */
-/*
-object main extends App{ //3 7 15 23
-  emitVerilog(new CompatiblePerm(3,16,3,2))
-  println(">>> Elaborated. Starting FIRRTL emission...")
-}
 
- */

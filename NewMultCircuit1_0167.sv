@@ -50,55 +50,91 @@
   `endif // not def ENABLE_INITIAL_MEM_
 `endif // not def SYNTHESIS
 
-module SplitMultiplier(	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:56:7
-  input         clock,	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:56:7
-  input  [15:0] io_a,	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:59:14
-  output [15:0] io_out_fixed,	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:59:14
-  input         io_valid_in,	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:59:14
-  output        io_valid_out	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:59:14
+module SplitMultiplier(	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7
+  input         clock,	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7
+  input  [15:0] io_a,	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:100:14
+  output [15:0] io_out_fixed,	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:100:14
+  input         io_valid_in,	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:100:14
+  output        io_valid_out	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:100:14
 );
 
-  reg [23:0] REG;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:82:18
-  reg        REG_1;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:83:20
-  reg [27:0] REG_2;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:82:18
-  reg        REG_3;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:83:20
-  reg [31:0] REG_4;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:82:18
-  reg        REG_5;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:83:20
-  always @(posedge clock) begin	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:56:7
-    REG <= {8'h0, io_a} + {2'h0, io_a, 6'h0};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:56:7, :74:22, :81:29, :82:18
-    REG_1 <= io_valid_in;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:83:20
-    REG_2 <= {4'h0, REG} + {{4'h0, io_a} * 20'hD, 8'h0};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:74:{12,22}, :81:29, :82:18
-    REG_3 <= REG_1;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:83:20
-    REG_4 <= {4'h0, REG_2} + {3'h0, io_a, 13'h0};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:74:{12,22}, :81:29, :82:18
-    REG_5 <= REG_3;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:83:20
+  reg [31:0] partials_0;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:126:25
+  reg [31:0] partials_1;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:126:25
+  reg [31:0] partials_2;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:126:25
+  reg [31:0] partials_3;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:126:25
+  reg [31:0] acc;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:127:25
+  reg        valid;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:128:25
+  reg [31:0] REG_0;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:144:23
+  reg [31:0] REG_1;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:144:23
+  reg [31:0] REG_2;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:144:23
+  reg [31:0] REG_1_0;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:147:18
+  reg        REG_2_0;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:150:20
+  reg [31:0] REG_3_0;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:144:23
+  reg [31:0] REG_3_1;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:144:23
+  reg [31:0] REG_4;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:147:18
+  reg        REG_5;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:150:20
+  reg [31:0] REG_6_0;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:144:23
+  reg [31:0] REG_7;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:147:18
+  reg        REG_8;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:150:20
+  always @(posedge clock) begin	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7
+    partials_0 <= {16'h0, io_a};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:120:24, :126:25
+    partials_1 <= {10'h0, io_a, 6'h0};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:120:{24,44}, :126:25
+    partials_2 <= {4'h0, {4'h0, io_a} * 20'hD, 8'h0};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7, :120:{24,34}, :126:25
+    partials_3 <= {3'h0, io_a, 13'h0};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:120:{34,44}, :126:25
+    acc <= partials_0;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:126:25, :127:25
+    valid <= io_valid_in;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:128:25
+    REG_0 <= partials_1;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:126:25, :144:23
+    REG_1 <= partials_2;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:126:25, :144:23
+    REG_2 <= partials_3;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:126:25, :144:23
+    REG_1_0 <= acc + REG_0;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:127:25, :144:23, :147:{18,23}
+    REG_2_0 <= valid;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:128:25, :150:20
+    REG_3_0 <= REG_1;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:144:23
+    REG_3_1 <= REG_2;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:144:23
+    REG_4 <= REG_1_0 + REG_3_0;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:144:23, :147:{18,23}
+    REG_5 <= REG_2_0;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:150:20
+    REG_6_0 <= REG_3_1;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:144:23
+    REG_7 <= REG_4 + REG_6_0;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:144:23, :147:{18,23}
+    REG_8 <= REG_5;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:150:20
   end // always @(posedge)
-  `ifdef ENABLE_INITIAL_REG_	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:56:7
-    `ifdef FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:56:7
-      `FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:56:7
+  `ifdef ENABLE_INITIAL_REG_	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7
+    `ifdef FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7
+      `FIRRTL_BEFORE_INITIAL	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7
     `endif // FIRRTL_BEFORE_INITIAL
-    initial begin	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:56:7
-      automatic logic [31:0] _RANDOM[0:2];	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:56:7
-      `ifdef INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:56:7
-        `INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:56:7
+    initial begin	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7
+      automatic logic [31:0] _RANDOM[0:14];	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7
+      `ifdef INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7
+        `INIT_RANDOM_PROLOG_	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7
       `endif // INIT_RANDOM_PROLOG_
-      `ifdef RANDOMIZE_REG_INIT	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:56:7
-        for (logic [1:0] i = 2'h0; i < 2'h3; i += 2'h1) begin
-          _RANDOM[i] = `RANDOM;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:56:7
-        end	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:56:7
-        REG = _RANDOM[2'h0][23:0];	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:56:7, :82:18
-        REG_1 = _RANDOM[2'h0][24];	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:56:7, :82:18, :83:20
-        REG_2 = {_RANDOM[2'h0][31:25], _RANDOM[2'h1][20:0]};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:56:7, :82:18
-        REG_3 = _RANDOM[2'h1][21];	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:56:7, :82:18, :83:20
-        REG_4 = {_RANDOM[2'h1][31:22], _RANDOM[2'h2][21:0]};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:56:7, :82:18
-        REG_5 = _RANDOM[2'h2][22];	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:56:7, :82:18, :83:20
+      `ifdef RANDOMIZE_REG_INIT	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7
+        for (logic [3:0] i = 4'h0; i < 4'hF; i += 4'h1) begin
+          _RANDOM[i] = `RANDOM;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7
+        end	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7
+        partials_0 = _RANDOM[4'h0];	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7, :126:25
+        partials_1 = _RANDOM[4'h1];	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7, :126:25
+        partials_2 = _RANDOM[4'h2];	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7, :126:25
+        partials_3 = _RANDOM[4'h3];	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7, :126:25
+        acc = _RANDOM[4'h4];	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7, :127:25
+        valid = _RANDOM[4'h5][0];	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7, :128:25
+        REG_0 = {_RANDOM[4'h5][31:1], _RANDOM[4'h6][0]};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7, :128:25, :144:23
+        REG_1 = {_RANDOM[4'h6][31:1], _RANDOM[4'h7][0]};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7, :144:23
+        REG_2 = {_RANDOM[4'h7][31:1], _RANDOM[4'h8][0]};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7, :144:23
+        REG_1_0 = {_RANDOM[4'h8][31:1], _RANDOM[4'h9][0]};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7, :144:23, :147:18
+        REG_2_0 = _RANDOM[4'h9][1];	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7, :147:18, :150:20
+        REG_3_0 = {_RANDOM[4'h9][31:2], _RANDOM[4'hA][1:0]};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7, :144:23, :147:18
+        REG_3_1 = {_RANDOM[4'hA][31:2], _RANDOM[4'hB][1:0]};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7, :144:23
+        REG_4 = {_RANDOM[4'hB][31:2], _RANDOM[4'hC][1:0]};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7, :144:23, :147:18
+        REG_5 = _RANDOM[4'hC][2];	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7, :147:18, :150:20
+        REG_6_0 = {_RANDOM[4'hC][31:3], _RANDOM[4'hD][2:0]};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7, :144:23, :147:18
+        REG_7 = {_RANDOM[4'hD][31:3], _RANDOM[4'hE][2:0]};	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7, :144:23, :147:18
+        REG_8 = _RANDOM[4'hE][3];	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7, :147:18, :150:20
       `endif // RANDOMIZE_REG_INIT
     end // initial
-    `ifdef FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:56:7
-      `FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:56:7
+    `ifdef FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7
+      `FIRRTL_AFTER_INITIAL	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7
     `endif // FIRRTL_AFTER_INITIAL
   `endif // ENABLE_INITIAL_REG_
-  assign io_out_fixed = REG_4[29:14];	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:56:7, :82:18, :87:22
-  assign io_valid_out = REG_5;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:56:7, :83:20
+  assign io_out_fixed = REG_7[29:14];	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7, :147:18, :157:22
+  assign io_valid_out = REG_8;	// \\src\\main\\scala\\FixedPointUnit\\AdvancedFixedPoint.scala:97:7, :150:20
 endmodule
 
 module Fixed16BitAdder(	// \\src\\main\\scala\\FixedPointUnit\\FixedPointUnit.scala:7:7

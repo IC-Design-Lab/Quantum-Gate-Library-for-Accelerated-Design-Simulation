@@ -48,6 +48,10 @@
 [0m[[0m[0mdebug[0m] [0m[0m	  C:\Projects\Chisel-Quantum-Emulator\Quantum-Computing-Simulation\target\scala-2.13\classes\FixedPointUnit\Advanced\FixedMult$$anon$1.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	FixedPointUnit\Advanced\FixedMult.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  C:\Projects\Chisel-Quantum-Emulator\Quantum-Computing-Simulation\target\scala-2.13\classes\FixedPointUnit\Advanced\FixedMult.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	FixedPointUnit\Advanced\PipelinedMul$$anon$3.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Projects\Chisel-Quantum-Emulator\Quantum-Computing-Simulation\target\scala-2.13\classes\FixedPointUnit\Advanced\PipelinedMul$$anon$3.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	FixedPointUnit\Advanced\PipelinedMul.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  C:\Projects\Chisel-Quantum-Emulator\Quantum-Computing-Simulation\target\scala-2.13\classes\FixedPointUnit\Advanced\PipelinedMul.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	FixedPointUnit\Advanced\SplitMultiplier$$anon$2.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  C:\Projects\Chisel-Quantum-Emulator\Quantum-Computing-Simulation\target\scala-2.13\classes\FixedPointUnit\Advanced\SplitMultiplier$$anon$2.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	FixedPointUnit\Advanced\SplitMultiplier.class[0m
